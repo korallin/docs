@@ -1,2 +1,2 @@
 # docs
-Repositório de documentações
+Repositório de documentações particulares de Alexander Moreira de Morais.
