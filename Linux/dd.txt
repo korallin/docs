@@ -1,0 +1,31 @@
+DD - Data Duplicator
+===============================================================================
+
+Copiando bit-a-bit de um disco para outro
+-----------------------------------------
+dd if=<origem> of=<destino> [opções]
+
+exemplo:
+ dd if=/dev/sda of=/dev/sdb bs=4096 conv=noerror,sync
+
+onde:
+ 'bs=4096' representa tamanho do bloco de bytes a serem lidos/gravados de cada vez
+ 'conv=noerror,sync' represnta parâmetros de conversão
+    noerror - Permite que a ferramente continue copiando os dados mesmo que encontre erro
+    sync    - Permite usar operações de entrada/saída sincronizada
+
+Criando imagem de um disco
+--------------------------
+dd if=/dev/sda of=/tmp/disk.img 
+
+Restaurando imagem de um disco
+------------------------------
+dd if=/tmp/disk.img of=/dev/sda 
+
+Criando disco bootável
+----------------------
+dd if=/tmp/imagem.iso of=/dev/sdb bs=4M;sync
+
+Apagando dados de um disco
+--------------------------
+dd if=dev/zero of=/dev/sda bs=1M
