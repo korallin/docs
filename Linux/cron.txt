@@ -1,0 +1,43 @@
+Agendador de tarefas Crond
+===============================================================================
+
+Estrutura de tabelas global
+---------------------------
+crontab -> /etc/crontab
+
+Tabelas dos usuários
+--------------------
+/var/spool/cron/crontab
+
+Formato para agendamento Crontab
+--------------------------------
+0-59 0-23 0-31 1-12 0-6 <comando> 
+ |    |    |    |    |      |
+ |    |    |    |    |      +------> Comando a ser executado
+ |    |    |    |    +-------------> Dia da semana, 0-domingo; 6-sábado
+ |    |    |    +------------------> Mês, 1-janeiro; 12-dezembro
+ |    |    +-----------------------> Dia do mês
+ |    +----------------------------> Hora
+ +---------------------------------> Minuto
+
+Exemplos
+--------
+# rodando comando todos os dias às 4h05
+ 5  4 * * * /caminho/script.sh
+
+# rodando comando todos os domingos às 4h05
+5 4 * * sun /caminho/script.sh
+
+# rodando comando todo dia 01 de todos os meses às 14h15
+15 14 1 * * /caminho/script.sh
+
+# rodando comando todos os dias da semana de segunda a sexta às 22h
+0 22 * * 1-5 /caminho/script.sh
+
+# Rodando comando todos os dias a cada 2h no intervalo de 8h às 18h
+0 8-18/2 * * * /caminho/script.sh
+
+# Rodando comando às 0h e 12h no primeiro dia do mês a cada 2 meses
+0 0,12 1 */2 * /caminho/script.sh
+
+Mais exemplos e validação de quando será rodado o comando, basta incluir a entrada do crontab pretendida em https://crontab.guru que será mostrado possíveis erros de sintaxes assim como as datas/hora de execução.
