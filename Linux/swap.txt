@@ -1,0 +1,48 @@
+Aumentando tamanho de Swap - CentOS7
+===============================================================================
+
+1 - Adicionando um novo arquivo de paginação
+-------------------------------------------------------------------------------
+    # dd if=/dev/zero of=/swap/page01.img count=4096 bs=1MiB
+
+    # mkswap /swap/page01.img
+    Setting up swapspace version 1, size = 4194300 KiB
+    no label, UUID=ba86b2ea-eff3-44ca-a514-c11ec8a4d654
+
+    # swapon -v /swap/page01.img
+    swapon /swap/page01.img
+    swapon: /swap/page01.img: insecure permissions 0644, 0600 suggested.
+    swapon: /swap/page01.img: found swap signature: version 1, page-size 4, same byte order
+    swapon: /swap/page01.img: pagesize=4096, swapsize=4294967296, devsize=4294967296
+
+    Adicionar ao arquivo /etc/fstab para montar automaticamente no reinicio do SO
+    /swap/page01.img        swap                    swap    defaults        0 0
+
+2 - Resize de LVM
+-------------------------------------------------------------------------------
+    Extending Swap on an LVM2 Logical Volume
+
+    To extend an LVM2 swap logical volume (assuming /dev/VolGroup00/LogVol01 is the volume you want to extend):
+
+        Disable swapping for the associated logical volume:
+        # swapoff -v /dev/VolGroup00/LogVol01
+
+        Resize the LVM2 logical volume by 256 MB:
+        # lvresize --size +2G /dev/VG_LVM/swap
+
+        Format the new swap space:
+        # mkswap /dev/VolGroup00/LogVol01
+
+        Enable the extended logical volume:
+        # swapon -va
+
+        Test that the logical volume has been extended properly:
+        # cat /proc/swaps # free
+
+        Sequencia de comandos para extender Swap
+        ----------------------------------------
+        swapoff -a
+        lvextend -L+30G /dev/mapper/vg_lvm-swap
+        lvextend -L+10G /dev/mapper/vg_lvm-swap
+        mkswap /dev/mapper/vg_lvm-swap
+        swapon -a
