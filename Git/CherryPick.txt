@@ -1,0 +1,11 @@
+Efetuando um Cherry Pick
+========================
+    tr301005@nuope08-trf1 ~/workspace/ansible(develop)$ git log --oneline
+    8c6b43c Ajuste sudoers Seban permitindo executar comandos via Ansible
+    bfd1e5e Atualizando a copia dos arquivos da SEBAN para template
+    24e442a Atualizando arquivo de sudoers da seban com a nova tr do prestador
+    ...
+    tr301005@nuope08-trf1 ~/workspace/ansible(develop)$ git checkout master
+    tr301005@nuope08-trf1 ~/workspace/ansible(master)$ git pull
+    tr301005@nuope08-trf1 ~/workspace/ansible(master)$ git cherry-pick -x 8c6b43c
+    tr301005@nuope08-trf1 ~/workspace/ansible(master)$ git push

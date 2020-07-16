@@ -1,0 +1,2 @@
+Ferramenta para visualizar graficamente o uso do Git
+http://git-school.github.io/visualizing-git

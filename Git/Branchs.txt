@@ -1,0 +1,11 @@
+Criando uma Branch e apontando para Branch
+    git checkout -b hotfix/join_server_ad
+
+Mapeando uma Branch Local com uma Branch Remota
+    git pull -u origin hotfix/join_server_ad
+
+Excluindo uma Branch Local
+    git branch -d hotfix
+
+Excluindo uma Branch Remota
+    git push origin --delete serverfix

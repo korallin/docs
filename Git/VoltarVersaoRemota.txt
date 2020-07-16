@@ -1,0 +1,7 @@
+Voltando para versão master remota
+==================================
+    $ git fetch origin
+    $ git reset --hard origin/<master|develop|etc.>
+    $ git clean -d -f
+    $ git pull
+    Already up to date.

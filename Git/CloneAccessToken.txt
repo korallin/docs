@@ -1,0 +1,5 @@
+Clone via HTTP com Acess Token
+==============================
+1. Gerar um “Personal Access Token” no Gitlab
+2. Efetuar um Git Clone com o token gerado
+    git clone https://oauth2:isy4tDBKwv9Wfb8e73RZ@gitlab.trf1.jus.br/sesof/kickstart.git
