@@ -1,3 +1,8 @@
 Mostrando os logs de forma gráfica o histórico dos commits
 git log --oneline --decorate --graph --all
 
+Mostrando detalhadamente arquivos afetados
+git log --stat
+
+Mostrando logs de duas semanas atrás
+git log --since="2 weeks ago" --stat
