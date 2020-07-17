@@ -1,0 +1,8 @@
+Segue alguns dos comandos para verificar distribuição Linux
+===========================================================
+
+cat /etc/*-release
+lsb_release -a
+uname -a
+uname -mrs
+cat /proc/version
