@@ -1,0 +1,2 @@
+/etc/fstab
+sshfs#trf1@sftp.trf4.jus.br:/ /mnt/trf4 fuse   IdentityFile=/home/tr301005/.ssh/id_rsa,uid=84665441,gid=84600513,users,idmap=user,noatime,allow_other,_netdev,reconnect,ro 0 0

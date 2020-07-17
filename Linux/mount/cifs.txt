@@ -1,0 +1,9 @@
+Montando compartilhamentos Windows via Cifs
+===========================================
+sudo mount -t cifs -o credentials=/root/.tr301005.txt,dir_mode=0755,file_mode=0755 //172.16.0.124/fs_arquivos_jcr_alei /mnt/unb
+
+Conteudo do arquivo de credencial .tr301005.txt
+-----------------------------------------------
+username=<usuario>
+password=<senha>
+domain=<dominio>

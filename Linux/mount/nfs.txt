@@ -1,0 +1,3 @@
+/etc/fstab
+172.16.0.252:/fs_arquivos_pje_prd_bin_jboss_trf1        /pje_bin                nfs nolock,rw,vers=3 0 0
+172.16.0.252:/fs_sei_dados_anexos_prd_2020_v3_trf1      /dados/sei_docs/2020    nfs nolock,rw,vers=3 0 0
