@@ -1,0 +1,5 @@
+Copiando arquivos
+=================
+rsync -Pav <origem> [ip-remoto:]<destino>
+
+Caso queira fazer apenas um teste, basta usar a opção --dry-run
