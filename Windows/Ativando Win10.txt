@@ -1,0 +1,31 @@
+bom, galera, nunca curti muito ativar o windows usando ativador pois a maioria dos antivírus detecta vírus ou algo potencialmente indesejado. Então trago um método aqui pra vocês 100% funcional e pelo menos o meu antivírus não buzinou nada kkk.
+
+1° abra o cmd como administrador
+
+2° cole os seguintes comandos no cmd: Um por um, siga a ordem
+
+
+Código:
+        cscript slmgr.vbs /ipk "cole o serial de acordo com o produto que você está usando"
+        cscript slmgr.vbs /skms kms.lotro.cc
+        cscript slmgr.vbs /ato
+
+Código:
+        home/core                            tx9xd-98n7v-6wmq6-bx7fg-h8q99        
+        home/core (country specific)         pvmjn-6dfy6-9ccp6-7bktt-d3wvr
+        home/core (single language)          7hnrx-d7kgg-3k4rq-4wpj4-ytdfh            
+        home/core n                          3khy7-wnt83-dgqkr-f7hpr-844bm  
+        professional                         w269n-wfgwx-yvc9b-4j6c9-t83gx
+        professional n                       mh37w-n47xk-v7xm9-c7227-gcqg9
+        enterprise                           nppr9-fwdcx-d2c8j-h872k-2yt43
+        enterprise n                         dph2v-ttnvb-4x9q3-tjr4h-khjw4
+        education                            nw6c2-qmpvw-d7kkk-3gkt6-vcfb2
+        education n                          2wh4n-8qgbv-h22jp-ct43q-mdwwj
+        enterprise 2015 ltsb                 wnmtr-4c88c-jk8yv-hq7t2-76df9
+        enterprise 2015 ltsb n               2f77b-tnfgy-69qqf-b8ykp-d69tj
+        enterprise 2016 ltsb                 dcphk-nfmtc-h88mj-pfhpy-qj4bj
+        enterprise 2016 ltsb n               qffdn-grt3p-vkwwx-x7t3r-8b639
+
+
+Fonte: https://filewarez.tv/showthread.php?t=845660&p=5827743&viewfull=1#post5827743
+OnLine KMS Servers: https://gist.github.com/CHEF-KOCH/29cac70239eed583ad1c96dcb6de364b

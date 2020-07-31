@@ -1,0 +1,16 @@
+Listando todas as regras de firewall por especificação
+iptables -S
+
+Listando tabela de regras de firewall por número de sequência das regra
+iptables -L -n --line-numbers
+
+Listando contadores das regras existentes
+iptables -n -L INPUT -v
+
+Zerando contadores
+iptables -Z 
+iptables -Z INPUT
+iptables -Z INPUT 31
+
+Apagando regra de firewall por número da regras
+iptables -D INPUT 31

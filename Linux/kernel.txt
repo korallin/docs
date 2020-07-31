@@ -1,0 +1,30 @@
+Ajustes de parâmetros de kernel - CentOS 7
+===============================================================================
+
+Verificando todos os parâmetros configurados
+--------------------------------------------
+# sysctl -a 
+
+Editando parâmetros de kernel
+-----------------------------
+/usr/lib/sysctl.d/50-default.conf
+
+
+Conexões de entrada de alto volume
+Ajuste do kernel do Linux para redes de alto desempenho
+-------------------------------------------------------
+net.ipv4.tcp_max_syn_backlog = 10240
+net.core.somaxconn = 1024
+net.core.netdev_max_backlog = 65536
+net.ipv4.tcp_max_tw_buckets = 1440000
+net.ipv4.tcp_tw_reuse = 1
+kernel.threads-max = 500000
+
+Aplicando configurações de kernel
+---------------------------------
+# sysctl --system
+
+
+Fontes:
+https://levelup.gitconnected.com/linux-kernel-tuning-for-high-performance-networking-high-volume-incoming-connections-196e863d458a
+https://christophermonzon.wordpress.com/2016/10/04/centos-7-network-performance/

@@ -1,0 +1,3 @@
+Container: cgroup (metricas e limites) e namespace (isolamento).
+POD: um ou mais Container implantados em um host. Menor unidade.
+dockerfile: receita de bolo para criar uma imagem
