@@ -46,3 +46,18 @@ Aumentando tamanho de Swap - CentOS7
         lvextend -L+10G /dev/mapper/vg_lvm-swap
         mkswap /dev/mapper/vg_lvm-swap
         swapon -a
+
+Verificar uso de Swap por um processo
+===============================================================================
+[root@srvpjejcr bin]# pidof java
+16891
+[root@srvpjejcr bin]# grep --color VmSwap /proc/16891/status
+VmSwap:           0 kB
+
+Ativando uso de Swap somente quando estiver com 100% de memória em uso
+===============================================================================
+[root@srvpjejcr bin]# sysctl vm.swappiness=0
+[root@srvpjejcr bin]# cat /proc/sys/vm/swappiness
+0
+[root@srvpjejcr bin]# swapoff -a
+[root@srvpjejcr bin]# swapon -a
