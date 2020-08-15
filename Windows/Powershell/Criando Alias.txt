@@ -1,0 +1,20 @@
+# Criando um Alias
+=============================================================================== 
+PS C:\Users\alexa> function tr301005 { ssh tr301005@172.16.60.124 }
+PS C:\Users\alexa> new-alias -name trf1 tr301005 -scope global
+PS C:\Users\alexa> trf1
+Last login: Fri Aug 14 12:48:56 2020 from 172.16.104.123
+tr301005@nuope08-trf1 ~$
+
+# Criando um arquivo de Profile que é equivalente ao .bashrc no Linux
+===============================================================================
+PS C:\Users\alexa> New-Item $profile -Type File -Force
+
+
+    Directory: C:\Users\alexa\Documents\PowerShell
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a---          15/08/2020    10:02              0 Microsoft.PowerShell_profile.ps1
+
+PS C:\Users\alexa> notepad $profile
