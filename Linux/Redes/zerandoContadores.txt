@@ -1,0 +1,6 @@
+Zerando Contadores de uma determinada interface de rede
+=======================================================
+Resize the ring buffers and the statistics will get reset without downtime.
+
+ethtool -G eth1 rx 511
+ethtool -G eth1 rx 4096
