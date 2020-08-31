@@ -1,0 +1,37 @@
+Listando todas as regras de firewall por especificação
+iptables -S
+
+Listando tabela de regras de firewall por número de sequência das regra
+iptables -L -n --line-numbers
+
+Listando contadores das regras existentes
+iptables -n -L INPUT -v
+
+Zerando contadores
+iptables -Z 
+iptables -Z INPUT
+iptables -Z INPUT 31
+
+Apagando regra de firewall por número da regras
+iptables -D INPUT 31
+
+Gerando Logs de DROP no /var/log/message
+iptables -N LOGGING
+iptables -A INPUT -j LOGGING
+iptables -A LOGGING -m limit --limit 2/min -j LOG --log-prefix "IPTables-Dropped: " --log-level 4
+iptables -A LOGGING -j DROP
+
+Exemplo de Log:
+    Aug  4 13:22:40 centos kernel: IPTables-Dropped: IN= OUT=em1 SRC=192.168.1.23 DST=192.168.1.20 LEN=84 TOS=0x00 PREC=0x00 TTL=64 ID=0 DF PROTO=ICMP TYPE=8 CODE=0 ID=59228 SEQ=2
+    Aug  4 13:23:00 centos kernel: IPTables-Dropped: IN=em1 OUT= MAC=a2:be:d2:ab:11:af:e2:f2:00:00 SRC=192.168.2.115 DST=192.168.1.23 LEN=52 TOS=0x00 PREC=0x00 TTL=127 ID=9434 DF PROTO=TCP SPT=58428 DPT=443 WINDOW=8192 RES=0x00 SYN URGP=0
+
+Legenda da saída de Log:
+    IPTables-Dropped: This is the prefix that we used in our logging by specifying –log-prefix option
+    IN=em1 This indicates the interface that was used for this incoming packets. This will be empty for outgoing packets
+    OUT=em1 This indicates the interface that was used for outgoing packets. This will be empty for incoming packets.
+    SRC= The source ip-address from where the packet originated
+    DST= The destination ip-address where the packets was sent to
+    LEN= Length of the packet
+    PROTO= Indicates the protocol (as you see above, the 1st line is for outgoing ICMP protocol, the 2nd line is for incoming TCP protocol)
+    SPT= Indicates the source port
+    DPT= Indicates the destination port. In the 2nd line above, the destination port is 443. This indicates that the incoming HTTPS packets was dropped
