@@ -8,4 +8,18 @@ Efetuando um Cherry Pick
     tr301005@nuope08-trf1 ~/workspace/ansible(develop)$ git checkout master
     tr301005@nuope08-trf1 ~/workspace/ansible(master)$ git pull
     tr301005@nuope08-trf1 ~/workspace/ansible(master)$ git cherry-pick -x 8c6b43c
-    tr301005@nuope08-trf1 ~/workspace/ansible(master)$ git push
+    tr301005@nuope08-trf1 ~/workspace/ansible(master)$ git push origin master
+
+Caso tenha sido feito Commit na Master e aplicar na branch develop
+==================================================================
+    tr301005@nuope08-trf1 ~/workspace/ansible(master)$ git log --oneline
+    780ba10 Criação regra de firewall permitindo debug remoto para Edmar no srvpje1gqtz - SS610636
+    f458d7c adição de mais um item para ser monitorados nos servidores oracle via userparameters
+    5044b7e Criando playbook para checagem de requisitos de seguranca/compliance - SS597216
+    72b3fdc Configuração do zabbix proxy do Mato Grosso. Demanda de numero SS602680
+    7c158f1 Configuração do zabbix proxy. SS591957
+    ...
+    tr301005@nuope08-trf1 ~/workspace/ansible(master)$ git checkout develop
+    tr301005@nuope08-trf1 ~/workspace/ansible(develop)$ git pull
+    tr301005@nuope08-trf1 ~/workspace/ansible(develop)$ git cherry-pick -x 780ba10
+    tr301005@nuope08-trf1 ~/workspace/ansible(develop)$ git push origin develop
