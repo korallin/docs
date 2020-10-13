@@ -3,3 +3,7 @@ Copiando arquivos
 rsync -Pav <origem> [ip-remoto:]<destino>
 
 Caso queira fazer apenas um teste, basta usar a opção --dry-run
+
+Copiando arquivos setando permissões e excluíndo arquivos na origem após copiados
+=================================================================================
+rsync --perms --chmod=Du=rwx,Dgo=rx,Fu=rwx,Fog=rx --temp-dir=/tmp --partial-dir=/tmp --log-format='%t %p %i %n %M %l' --checksum --executability --progress --remove-source-files -rDvhe <origem> <destino>
