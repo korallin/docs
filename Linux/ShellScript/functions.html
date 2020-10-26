@@ -1,0 +1,307 @@
+Retirado de <a href="https://www.shellscript.sh/">https://www.shellscript.sh/</a>
+<h1>Functions</h1></header>
+<p>One often-overlooked feature of Bourne shell script programming is that
+you can easily write functions for use within your script. This is
+generally done in one of two ways; with a simple script, the function
+is simply declared in the same file as it is called.
+<br>
+However, when writing a suite of scripts, it is often easier to write
+a "library" of useful functions, and source that file at
+the start of the other scripts which use the functions. This will
+be shown <a href="#libraries">later</a> in this section.
+<br>
+The method is the same however it is done; we will primarily be using
+the first way here. The second (library) method is basically the same, except
+that the command <code>. ./library.sh</code> goes at the start of the script. The "<code>.</code>" dot before the name
+of the <code>library.sh</code> is not a typo; it tells the calling shell not to spawn another shell for <code>library.sh</code>,
+so that its functions (and variables) become available to the calling shell.</p>
+
+<p>
+There could be some confusion about whether to call shell functions
+<i>procedures</i> or <i>functions</i>; a strict definition of a function
+is traditionally that it returns a single value, and does not output
+anything. A procedure, on the other hand, does not return a value, but
+may produce output. A shell function may do neither, either or both.  
+It is generally accepted that in shell scripts they are called functions.</p><p>
+A function may return a value in one of five typical ways:</p><ul class="circle">
+<li>Change the state of a variable or variables</li>
+<li>Use the <code>exit</code> command to end the shell script</li>
+<li>Update the contents of a file in the filesystem</li>
+<li>Use the <code>return</code> command to end the function, and return the supplied value to the calling section of the shell script</li>
+<li>echo output to stdout, which will be caught by the caller just as c=`expr $a + $b` is caught</li>
+</ul><p>
+This is rather like C, in that <code>exit</code> stops the program, and <code>return</code> returns
+control to the caller. The difference is that a shell function cannot change its parameters, though
+it can change global variables.
+</p>
+<p>One major thing to be aware of though is that - just as with shell status return codes - the return value is a single byte, so it can only have a value between 0 and 255. See the <a href="/tips/255/">Return codes, Functions, and the number 255 tip</a> for more on this.
+</p><p>
+A simple script using a function would look like this:</p>
+
+<pre><a href="eg/function.sh.txt">function.sh</a>
+<code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span>
+<span class="hljs-comment"># A simple script with a function...</span>
+
+<span class="hljs-function"><span class="hljs-title">add_a_user</span></span>()
+{
+  USER=<span class="hljs-variable">$1</span>
+  PASSWORD=<span class="hljs-variable">$2</span>
+  <span class="hljs-built_in">shift</span>; <span class="hljs-built_in">shift</span>;
+  <span class="hljs-comment"># Having shifted twice, the rest is now comments ...</span>
+  COMMENTS=<span class="hljs-variable">$@</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Adding user <span class="hljs-variable">$USER</span> ..."</span>
+  <span class="hljs-built_in">echo</span> useradd -c <span class="hljs-string">"<span class="hljs-variable">$COMMENTS</span>"</span> <span class="hljs-variable">$USER</span>
+  <span class="hljs-built_in">echo</span> passwd --stdin <span class="hljs-variable">$USER</span> <span class="hljs-variable">$PASSWORD</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Added user <span class="hljs-variable">$USER</span> (<span class="hljs-variable">$COMMENTS</span>) with pass <span class="hljs-variable">$PASSWORD</span>"</span>
+}
+
+<span class="hljs-comment">###</span>
+<span class="hljs-comment"># Main body of script starts here</span>
+<span class="hljs-comment">###</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Start of script..."</span>
+add_a_user bob letmein Bob Holness the presenter
+add_a_user fred badpassword Fred Durst the singer
+add_a_user bilko worsepassword Sgt. Bilko the role model
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"End of script..."</span>
+</code></pre>
+<p>Line 4 identifies itself as a function declaration by ending in ().
+This is followed by <code>{</code>, and everything following to the
+matching <code>}</code> is taken to be the code of that function.
+<br>
+This code is <i>not executed</i> until the function is called. Functions are 
+read in, but basically ignored until they are actually called.
+</p>
+<p>
+Note that for this example the <code>useradd</code> and <code>passwd</code>
+commands have been prefixed with <code>echo</code> - this is a useful 
+debugging technique to check that the right commands would be executed.
+It also means that you can run the script without being root or adding
+dodgy user accounts to your system!
+</p><p>
+We have been used to the idea that a shell
+script is executed sequentially. This is not so with functions.
+<br>
+In this case, the function <code>add_a_user</code> is read in and checked for syntax,
+but not executed until it is explicitly called. 
+This is where the <a href="http://steve-parker.org/articles/shellshock/">Shellshock</a> bug of 2014 comes into play. Other commands after the function definition were executed, even though they were not part of the function itself. See <a href="http://steve-parker.org/articles/shellshock/">http://steve-parker.org/articles/shellshock/</a> for more information on this.
+<br>
+Execution starts with the <code>echo</code> statement "Start of script...". The next line, <code>add_a_user bob letmein Bob Holness</code> is
+recognised as a function call so the <code>add_a_user</code> function is entered
+and starts executing with certain additions to the environment:</p>
+<pre><code class="hljs bash"><span class="hljs-variable">$1</span>=bob
+<span class="hljs-variable">$2</span>=letmein
+<span class="hljs-variable">$3</span>=Bob
+<span class="hljs-variable">$4</span>=Holness
+<span class="hljs-variable">$5</span>=the
+<span class="hljs-variable">$6</span>=presenter
+</code></pre><p>
+
+Within that run of the function, <code>$1</code> is set to <code>bob</code>,
+regardless of what <code>$1</code> may be set to outside of the function.
+<br>
+So if we want to refer to the "original" $1 <i>inside</i> the function,
+we have to assign a name to it - such as: <code>A=$1</code> before we call the function.
+Then, within the function, we can refer to <code>$A</code>.
+
+<br>
+We use the <code>shift</code> command again to get the <code>$3</code> and
+onwards parameters into <code>$@</code>.
+The function then adds the user and sets their password. It <code>echo</code>es
+a comment to that effect, and returns control to the next line of the main
+code.</p>
+<header class="major"><h2>Scope of Variables</h2></header>
+<p>Programmers used to other languages may be surprised at the scope rules
+for shell functions. Basically, there is no scoping, other than the
+parameters (<code>$1</code>, <code>$2</code>, <code>$@</code>, etc).<br>
+
+Taking the following simple code segment:</p>
+<pre><code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span>
+
+<span class="hljs-function"><span class="hljs-title">myfunc</span></span>()
+{
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"myfunc was called as : <span class="hljs-variable">$@</span>"</span>
+  x=2
+}
+
+<span class="hljs-comment">### Main script starts here </span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Script was called with <span class="hljs-variable">$@</span>"</span>
+x=1
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"x is <span class="hljs-variable">$x</span>"</span>
+myfunc 1 2 3
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"x is <span class="hljs-variable">$x</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Script was called with <span class="hljs-variable">$@</span>"</span>
+</code></pre>
+<p>The script, when called as <code>scope.sh a b c</code>, gives the following output:</p>
+<pre><code class="hljs yaml"><span class="hljs-string">Script</span> <span class="hljs-string">was</span> <span class="hljs-string">called</span> <span class="hljs-string">with</span> <span class="hljs-string">a</span> <span class="hljs-string">b</span> <span class="hljs-string">c</span>
+<span class="hljs-string">x</span> <span class="hljs-string">is</span> <span class="hljs-number">1</span>
+<span class="hljs-attr">myfunc was called as :</span> <span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">3</span>
+<span class="hljs-string">x</span> <span class="hljs-string">is</span> <span class="hljs-number">2</span>
+<span class="hljs-string">Script</span> <span class="hljs-string">was</span> <span class="hljs-string">called</span> <span class="hljs-string">with</span> <span class="hljs-string">a</span> <span class="hljs-string">b</span> <span class="hljs-string">c</span>
+</code></pre>
+<p>The <code>$@</code> parameters are changed within the function to reflect
+how the function was called. The variable <code>x</code>, however, is
+effectively a global variable - <code>myfunc</code> changed it, and that
+change is still in place when control returns to the main script.</p>
+
+<p>
+A function will be called in a sub-shell if its output is piped somewhere
+else - that is, "<code>myfunc 1 2 3 | tee out.log</code>" will still say "x is 1" the second time around. This is because a new shell process is called to pipe <code>myfunc()</code>. This can make debugging very frustrating; Astrid had a script which suddenly failed when the "<code>| tee</code>" was added, and it is not immediately obvious why this must be. The <code>tee</code> has to be started up before the function to the left of the pipe; with the simple example of "<code>ls | grep foo</code>", then <code>grep</code> has to be started first, with its <code>stdin</code> then tied to the <code>stdout</code> of <code>ls</code> once <code>ls</code> starts. In the shell script, the shell has already been started before we even knew we were going to pipe through <code>tee</code>, so the operating system has to start <code>tee</code>, then start a new shell to call <code>myfunc()</code>. This is frustrating, but well worth being aware of.
+
+</p>
+<p>
+Functions cannot change the values they have been called with, either - this
+must be done by changing the variables themselves, not the parameters
+as passed to the script.<br>
+An example shows this more clearly:</p>
+<pre><code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span>
+
+<span class="hljs-function"><span class="hljs-title">myfunc</span></span>()
+{
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"\$1 is <span class="hljs-variable">$1</span>"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"\$2 is <span class="hljs-variable">$2</span>"</span>
+  <span class="hljs-comment"># cannot change $1 - we'd have to say:</span>
+  <span class="hljs-comment"># 1="Goodbye Cruel"</span>
+  <span class="hljs-comment"># which is not a valid syntax. However, we can</span>
+  <span class="hljs-comment"># change $a:</span>
+  a=<span class="hljs-string">"Goodbye Cruel"</span>
+}
+
+<span class="hljs-comment">### Main script starts here </span>
+
+a=Hello
+b=World
+myfunc <span class="hljs-variable">$a</span> <span class="hljs-variable">$b</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a is <span class="hljs-variable">$a</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"b is <span class="hljs-variable">$b</span>"</span>
+</code></pre>
+<p>This rather cynical function changes $a, so the message "Hello World"
+becomes "Goodbye Cruel World".</p>
+<header class="major"><h2>Recursion</h2></header>
+<p>Functions can be recursive - here's a simple example of a factorial function:</p>
+
+<pre><a href="eg/factorial.sh.txt"> factorial.sh </a>
+<code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span>
+
+<span class="hljs-function"><span class="hljs-title">factorial</span></span>()
+{
+  <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> -gt <span class="hljs-string">"1"</span> ]; <span class="hljs-keyword">then</span>
+    i=`expr <span class="hljs-variable">$1</span> - 1`
+    j=`factorial <span class="hljs-variable">$i</span>`
+    k=`expr <span class="hljs-variable">$1</span> \* <span class="hljs-variable">$j</span>`
+    <span class="hljs-built_in">echo</span> <span class="hljs-variable">$k</span>
+  <span class="hljs-keyword">else</span>
+    <span class="hljs-built_in">echo</span> 1
+  <span class="hljs-keyword">fi</span>
+}
+
+
+<span class="hljs-keyword">while</span> :
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Enter a number:"</span>
+  <span class="hljs-built_in">read</span> x
+  factorial <span class="hljs-variable">$x</span>
+<span class="hljs-keyword">done</span>                      
+</code></pre>
+<p>When you run this program, it recursively calculates the factorial of the number you supply it with:</p>
+<pre><code class="ShellSession hljs yaml">
+<span class="hljs-attr">Enter a number:</span>
+<span class="hljs-number">4</span>
+<span class="hljs-number">24</span>
+<span class="hljs-attr">Enter a number:</span>
+<span class="hljs-number">6</span>
+<span class="hljs-number">720</span>
+<span class="hljs-attr">Enter a number:</span>
+<span class="hljs-string">^C</span>
+</code></pre>
+<header class="major"><h2>Libraries</h2></header>
+<p>As promised, we will now briefly discuss using libraries between shell
+scripts. These can also be used to define common variables, as we shall see.</p>
+<pre><a href="eg/common.lib.txt">common.lib</a>
+<code class="hljs bash"><span class="hljs-comment"># common.lib</span>
+<span class="hljs-comment"># Note no #!/bin/sh as this should not spawn </span>
+<span class="hljs-comment"># an extra shell. It's not the end of the world </span>
+<span class="hljs-comment"># to have one, but clearer not to.</span>
+<span class="hljs-comment">#</span>
+STD_MSG=<span class="hljs-string">"About to rename some files..."</span>
+
+<span class="hljs-function"><span class="hljs-title">rename</span></span>()
+{
+  <span class="hljs-comment"># expects to be called as: rename .txt .bak </span>
+  FROM=<span class="hljs-variable">$1</span>
+  TO=<span class="hljs-variable">$2</span>
+
+  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> *<span class="hljs-variable">$FROM</span>
+  <span class="hljs-keyword">do</span>
+    j=`basename <span class="hljs-variable">$i</span> <span class="hljs-variable">$FROM</span>`
+    mv <span class="hljs-variable">$i</span> <span class="hljs-variable">${j}</span><span class="hljs-variable">$TO</span>
+  <span class="hljs-keyword">done</span>
+}
+</code></pre>
+
+<pre><a href="eg/function2.sh.txt">function2.sh</a>
+<code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span>
+<span class="hljs-comment"># function2.sh</span>
+. ./common.lib
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$STD_MSG</span>
+rename .txt .bak
+</code></pre>
+<pre><a href="eg/function3.sh.txt">function3.sh</a>
+<code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span>
+<span class="hljs-comment"># function3.sh</span>
+. ./common.lib
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$STD_MSG</span>
+rename .html .html-bak
+</code></pre>
+<p>Here we see two user shell scripts, <code>function2.sh</code> and 
+
+<code>function3.sh</code>, each <i>source</i>ing the common library
+file <code>common.lib</code>, and using variables and functions declared
+in that file.
+<br>
+This is nothing too earth-shattering, just an example of how code
+reuse can be done in shell programming.
+</p>
+<header class="major"><h2>Return Codes</h2></header>
+<p>For details about exit codes, 
+see the <a href="/tips/255/">Return codes, Functions, and the number 255 tip</a>.
+For now, though we shall briefly look at the <code>return</code> call.</p>
+
+<pre><code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span>
+
+<span class="hljs-function"><span class="hljs-title">adduser</span></span>()
+{
+  USER=<span class="hljs-variable">$1</span>
+  PASSWORD=<span class="hljs-variable">$2</span>
+  <span class="hljs-built_in">shift</span> ; <span class="hljs-built_in">shift</span>
+  COMMENTS=<span class="hljs-variable">$@</span>
+  useradd -c <span class="hljs-string">"<span class="hljs-variable">${COMMENTS}</span>"</span> <span class="hljs-variable">$USER</span>
+  <span class="hljs-keyword">if</span> [ <span class="hljs-string">"$?"</span> -ne <span class="hljs-string">"0"</span> ]; <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Useradd failed"</span>
+    <span class="hljs-built_in">return</span> 1
+  <span class="hljs-keyword">fi</span>
+  passwd --stdin <span class="hljs-variable">$USER</span> <span class="hljs-variable">$PASSWORD</span>
+  <span class="hljs-keyword">if</span> [ <span class="hljs-string">"$?"</span> -ne <span class="hljs-string">"0"</span> ]; <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Setting password failed"</span>
+    <span class="hljs-built_in">return</span> 2
+  <span class="hljs-keyword">fi</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Added user <span class="hljs-variable">$USER</span> (<span class="hljs-variable">$COMMENTS</span>) with pass <span class="hljs-variable">$PASSWORD</span>"</span>
+}
+
+<span class="hljs-comment">## Main script starts here</span>
+
+adduser bob letmein Bob Holness from Blockbusters
+ADDUSER_RETURN_CODE=$?
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$ADDUSER_RETURN_CODE</span>"</span> -eq <span class="hljs-string">"1"</span> ]; <span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Something went wrong with useradd"</span>
+<span class="hljs-keyword">elif</span> [ <span class="hljs-string">"<span class="hljs-variable">$ADDUSER_RETURN_CODE</span>"</span> -eq <span class="hljs-string">"2"</span> ]; <span class="hljs-keyword">then</span> 
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"Something went wrong with passwd"</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Bob Holness added to the system."</span>
+<span class="hljs-keyword">fi</span>
+</code></pre>
+<p>This script checks the two external calls it makes (<code>useradd</code> and <code>passwd</code>), and lets the user
+know if they fail. The function then defines a return code of 1 to indicate any problem with <code>useradd</code>, and 2 to
+indicate any problem with <code>passwd</code>. That way, the calling script knows where the problem lay.
+</p>
+<p>For a long time, this tutorial checked <code>$?</code> both times, rather than setting <code>ADDUSER_RETURN_CODE=$?</code>, and then looking at the value of <code>ADDUSER_RETURN_CODE</code> each time. This was a bug (thanks to Elyza for pointing it out). You have to save <code>$?</code>, because as soon as you run another command, such as <code>if</code>, the value of <code>$?</code> will be replaced. That is why we save the <code>adduser</code> return value in the <code>$ADDUSER_RETURN_CODE</code> variable, before acting on its content. <code>$ADDUSER_RETURN_CODE</code> is certain to remain the same; <code>$?</code> will change with every command that is executed.</p>
