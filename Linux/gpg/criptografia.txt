@@ -1,0 +1,41 @@
+GPG (GNU pgp) permite encriptar dados com base no conceito de chave pública e privada.
+
+Gerando par de chaves:
+    gpg --full-generate-key
+
+    As chaves ficam armazenadas em ~/.gnupgp/pubring.kbx
+
+Listando chaves:
+    gpg --list-keys
+
+Exportando chave pública:
+    gpg --export -a alex.moreira@gmail.com
+
+Exportando chave privada:
+    gpg --export-secret-keys alex.moreira@gmail.com > private.key
+
+Importando chave pública e/ou privada
+    gpg --import <arquivo_chaves>
+
+Alterando FraseSenha
+    gpg --edit-key alex.moreira@gmail.com
+    gpg> passwd
+
+Excluindo uma chave
+    gpg --delete-keys alex.moreira@gmail.com
+    gpg --delete-secret-keys alex.moreira@gmail.com
+
+Encriptando arquivo 
+    gpg -r alex.moreira@gmail.com -e arquivo.txt
+    gpg -a -r alex.moreira@gmail.com -e arquivo.txt
+
+Decriptando arquivo
+    gpg -d --decrypt arquivo.txt.asc > arquivo.txt
+    gpg -d --decrypt arquivo.txt.gpg > arquivo.txt
+
+Assinando arquivo
+    gpg -s arquivo.txt
+    gpg -s --clearsign arquivo.txt
+
+Verificando assinatura do arquivo
+    gpg --verify arquivo.txt
