@@ -5,8 +5,13 @@ Gerando par de chaves:
 
     As chaves ficam armazenadas em ~/.gnupgp/pubring.kbx
 
-Listando chaves:
+Listando chaves públicas
     gpg --list-keys
+    gpg -k
+
+Listando chaves privadas
+    gpg --list-secret-keys
+    gpg -K
 
 Exportando chave pública:
     gpg --export -a alex.moreira@gmail.com
