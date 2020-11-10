@@ -1,0 +1,31 @@
+Adicionando usuários existente no SO para o SMB
+===============================================================================
+    # smbpasswd -a user
+
+Listando usuários SMB
+===============================================================================
+    # pdbedit -L -v
+    ---------------
+    Unix username:        tr301005
+    NT username:
+    Account Flags:        [U          ]
+    User SID:             S-1-5-21-4263158205-694227432-3727228517-1000
+    Primary Group SID:    S-1-5-21-4263158205-694227432-3727228517-513
+    Full Name:            Alexander Moreira de Morais
+    Home Directory:       \\nuope08-trf1\tr301005
+    HomeDir Drive:
+    Logon Script:
+    Profile Path:         \\nuope08-trf1\tr301005\profile
+    Domain:               NUOPE08
+    Account desc:
+    Workstations:
+    Munged dial:
+    Logon time:           0
+    Logoff time:          Qua, 06 Fev 2036 12:06:39 -03
+    Kickoff time:         Qua, 06 Fev 2036 12:06:39 -03
+    Password last set:    Qua, 08 Mai 2019 11:44:10 -03
+    Password can change:  Qua, 08 Mai 2019 11:44:10 -03
+    Password must change: never
+    Last bad password   : 0
+    Bad password count  : 0
+    Logon hours         : FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
