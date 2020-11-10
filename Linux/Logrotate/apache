@@ -1,0 +1,11 @@
+/var/log/httpd/*log {
+  daily
+  dateext
+  missingok
+  notifempty
+  compress
+  rotate 30
+  postrotate
+    /usr/bin/systemctl reload apache > /dev/null 2>/dev/null || true
+  endscript
+}
