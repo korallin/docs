@@ -21,5 +21,7 @@ Vagrant.configure("2") do |config|
 
    config.vm.provision "shell", inline: <<-SHELL
       yum install docker -y
+      yum install podman -y
+      systemctl start docker
    SHELL
 end
