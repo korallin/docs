@@ -1,0 +1,11 @@
+Subindo vms definidas no arquivo Vagrant
+$ vagrant up
+
+Verificando Status das VMs definidas no arquivo Vagrant
+$ vagrant status
+
+Logando via SSH
+$ vagrant ssh <nome-vm>
+
+Destruindo VMs 
+$ vagrant destroy <nome-vm>
