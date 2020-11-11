@@ -9,3 +9,9 @@ $ vagrant ssh <nome-vm>
 
 Destruindo VMs 
 $ vagrant destroy <nome-vm>
+
+Listando as imagens armazenadas para o Vagrant
+$ vagrant box list
+
+Removento uma imagem armazenada para o Vagrant
+$ vagrant box remove <nome-imagem>
