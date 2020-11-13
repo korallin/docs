@@ -1,0 +1,11 @@
+Listando detalhes Filesystems utilizado com Docker
+    docker system df
+
+Removendo todos os containers que não estão em execução
+    docker rm $(docker ps -q --filter "status=exited")
+
+Removendo os volumes e imagens associados aos conteiners excluídos
+    docker volume prune --all --force
+
+Labs de Docker OnLine
+https://labs.play-with-docker.com

@@ -1,0 +1,26 @@
+1) Obter imagem "base" que será utilizada para derivar a nova imagem a ser criada
+    # docker pull alpine
+    # docker image list alpine
+    REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+    docker.io/alpine    latest              d6e46aa2470d        3 weeks ago         5.57 MB
+
+2) Criar um Dockerfile com a configuração da nova imagem, como por exemplo abaixo:
+    FROM alpine:latest
+
+    RUN apk update
+    RUN apk add vim
+    RUN apk add curl
+
+3) Efetuar o Build da nova imagem com base no Dockerfile
+    docker build --tag=alexander/alpine-vim-curl:1.0 .
+
+4) Verificar imagem criada
+    # docker image list alexander/alpine-vim-curl
+    REPOSITORY                  TAG                 IMAGE ID            CREATED             SIZE
+    alexander/alpine-vim-curl   1.0                 3bf2306c1f6e        51 seconds ago      35.7 MB
+
+5) Rodando a imagem criada de maneira iterativa
+    # docker run --rm -ti alexander/alpine-vim-curl:1.0 /bin/sh
+
+
+Referencia: https://takacsmark.com/dockerfile-tutorial-by-example-dockerfile-best-practices-2018/
