@@ -23,3 +23,8 @@ Outros filtros (utilizando a sintaxe comum de querys LDAP) podem ser utilizados 
 
 ‘(sAMAccountName=vipuser)’ – Busca um usuário com o account name “vipuser”
 ‘(memberOf=CN=FC-LAB-AcessoVIP,OU=MKT,DC=lab,DC=local)’ – Busca os membros do grupo “FC-LAB-AcessoVIP”
+
+
+Testando conectividade com usuário e senha no domínio
+    $ ldapwhoami -x -h 172.16.3.4  -D 'CN=OKD,OU=Servico,OU=Informatica,OU=Usuarios,DC=trf1,DC=gov,DC=br' -w '5p$S]fuN#u6Y_V2xH5Xd'
+    u:TRF1\svc_okd
