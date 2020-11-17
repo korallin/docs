@@ -1,0 +1,25 @@
+Instalação do pacote adequado
+    # yum install openldap-clients.i386
+
+Exemplos de Consultas na base Ldap
+    # Lista de pessoas em uma determinada OU
+    $ ldapsearch -x -h 172.16.3.4 -b 'OU=Infraestrutura,OU=Informatica,OU=Usuarios,DC=trf1,DC=gov,DC=br' -D 'CN=Alexander Moreira de Morais,OU=Infraestrutura,OU=Informatica,OU=Usuarios,DC=trf1,DC=gov,DC=br' -W '(objectCategory=person)'
+
+    # Lista de membros de um determinado grupo
+    $ ldapsearch -x -h 172.16.3.4 -b 'DC=trf1,DC=gov,DC=br' -D 'CN=Alexander Moreira de Morais,OU=Infraestrutura,OU=Informatica,OU=Usuarios,DC=trf1,DC=gov,DC=br' -W '(memberOf=CN=grp_linux_admins,OU=Admins Groups,OU=Permission Groups,OU=Security Groups,OU=Grupos,DC=trf1,DC=gov,DC=br)'
+
+    # Buscando um determinado usuário
+    $ ldapsearch -x -h 172.16.3.4 -b 'DC=trf1,DC=gov,DC=br' -D 'CN=Alexander Moreira de Morais,OU=Infraestrutura,OU=Informatica,OU=Usuarios,DC=trf1,DC=gov,DC=br' -W '(sAMAccountName=tr301005)'
+    $ ldapsearch -x -h 172.16.3.4 -b 'DC=trf1,DC=gov,DC=br' -D 'CN=OKD,OU=Servico,OU=Informatica,OU=Usuarios,DC=trf1,DC=gov,DC=br' -w '5p$S]fuN#u6Y_V2xH5Xd' '(sAMAccountName=tr301005)'
+
+Onde os parâmetros utilizados são os seguintes:
+
+-h: IP do Servidor LDAP
+-b: DN onde serão procurados os usuários, limita o escopo da busca
+-D: Usuário utilizado para consulta a base
+-w: Senha do usuário, pode ser substituído por ‘-W’ para que você entre com a senha no momento da busca
+
+Outros filtros (utilizando a sintaxe comum de querys LDAP) podem ser utilizados para que sua consulta retorne os resultados adequados. Por exemplo, no lugar do ‘(objectCategory=person)’ podem ser usados:
+
+‘(sAMAccountName=vipuser)’ – Busca um usuário com o account name “vipuser”
+‘(memberOf=CN=FC-LAB-AcessoVIP,OU=MKT,DC=lab,DC=local)’ – Busca os membros do grupo “FC-LAB-AcessoVIP”

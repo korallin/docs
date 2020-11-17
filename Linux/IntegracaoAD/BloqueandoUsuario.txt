@@ -1,0 +1,3 @@
+Bloqueando usuários do domínio localmente em um host
+----------------------------------------------------
+    # getent passwd apache | getent passwd apache | sed 's/\/bin\/bash/\/sbin\/nolgin/g' >> /etc/passwd
