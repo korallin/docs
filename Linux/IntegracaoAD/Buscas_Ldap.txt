@@ -12,6 +12,9 @@ Exemplos de Consultas na base Ldap
     $ ldapsearch -x -h 172.16.3.4 -b 'DC=trf1,DC=gov,DC=br' -D 'CN=Alexander Moreira de Morais,OU=Infraestrutura,OU=Informatica,OU=Usuarios,DC=trf1,DC=gov,DC=br' -W '(sAMAccountName=tr301005)'
     $ ldapsearch -x -h 172.16.3.4 -b 'DC=trf1,DC=gov,DC=br' -D 'CN=OKD,OU=Servico,OU=Informatica,OU=Usuarios,DC=trf1,DC=gov,DC=br' -w '5p$S]fuN#u6Y_V2xH5Xd' '(sAMAccountName=tr301005)'
 
+    # Pegando valores de campos selecionados para um determinado usuário
+    $ ldapsearch -x -h 172.16.3.4 -b 'DC=trf1,DC=gov,DC=br' -D 'CN=OKD,OU=Servico,OU=Informatica,OU=Usuarios,DC=trf1,DC=gov,DC=br' -w '5p$S]fuN#u6Y_V2xH5Xd' "(cn=Alexander Moreira de Morais)" distinguishedName sAMAccountName name userPrincipalName mail mobile telephoneNumber
+
 Onde os parâmetros utilizados são os seguintes:
 
 -h: IP do Servidor LDAP
