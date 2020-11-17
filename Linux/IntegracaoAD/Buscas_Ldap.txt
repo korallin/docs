@@ -14,6 +14,15 @@ Exemplos de Consultas na base Ldap
 
     # Pegando valores de campos selecionados para um determinado usuário
     $ ldapsearch -x -h 172.16.3.4 -b 'DC=trf1,DC=gov,DC=br' -D 'CN=OKD,OU=Servico,OU=Informatica,OU=Usuarios,DC=trf1,DC=gov,DC=br' -w '5p$S]fuN#u6Y_V2xH5Xd' "(cn=Alexander Moreira de Morais)" distinguishedName sAMAccountName name userPrincipalName mail mobile telephoneNumber
+    $ ldapsearch -x -h 172.16.3.4 -b 'DC=trf1,DC=gov,DC=br' -D 'CN=OKD,OU=Servico,OU=Informatica,OU=Usuarios,DC=trf1,DC=gov,DC=br' -w '5p$S]fuN#u6Y_V2xH5Xd' '(sAMAccountName=tr301005)' | egrep '^distinguishedName:|^sAMAccountName:|^name:|^userPrincipalName:|^mail:|^mobile:|^telephoneNumber:'
+        telephoneNumber: (061) 3314-1533
+        distinguishedName: CN=Alexander Moreira de Morais,OU=Infraestrutura,OU=Informa
+        name: Alexander Moreira de Morais
+        sAMAccountName: tr301005
+        userPrincipalName: tr301005@trf1.gov.br
+        mail: alexander.morais@trf1.jus.br
+        mobile: 061-98383-7083
+
 
 Onde os parâmetros utilizados são os seguintes:
 
