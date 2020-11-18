@@ -1,0 +1,20 @@
+Criando partições com mais de 2Tb
+===============================================================================
+Por padrão a maior partição criada pelo comando fdisk é de 2Tb, caso seja necessário criar partições com tamanhos maiores que isso, 
+como é o caso do disco de 10Tb deste exemplo, será necessário utilizar o comando parted conforme descrito no passo a passo abaixo:
+
+    # parted /dev/sdb
+    (parted) mklabel gpt
+    (parted) unit TB
+    (parted) mkpart primary xfs 0 100%
+    (parted) set 1 lvm on
+    (parted) print                                                            
+    Model: VMware Virtual disk (scsi)
+    Disk /dev/sdb: 11,0TB
+    Sector size (logical/physical): 512B/512B
+    Partition Table: gpt
+    Disk Flags: 
+    
+    Number  Start   End     Size    File system  Name     Sinalizador
+     1      0,00TB  11,0TB  11,0TB               primary  lvm
+    (parted) quit

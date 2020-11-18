@@ -1,0 +1,43 @@
+Rescan de Discos
+===============================================================================
+Rescan em Discos que foram expandidos
+    echo 1 > /sys/block/<SDXX>/device/rescan
+
+Rescan de novos Discos
+    #  grep mpt /sys/class/scsi_host/host?/proc_name
+    /sys/class/scsi_host/host2/proc_name:mptspi
+    # echo "- - -" > /sys/class/scsi_host/host2/scan
+
+Mais uma forma de Rescan
+    for i in $(ls /sys/class/scsi_host/); do 
+      echo "- - -" > /sys/class/scsi_host/${i}/scan; 
+    done
+
+Mais uma forma de Rescan
+    # ls /sys/class/scsi_device/
+    # echo 1 > /sys/class/scsi_device/0\:0\:0\:0/device/rescan
+
+Logical Volume Manager
+===============================================================================
+Listando informações dos Volumes Físicos
+    pvs -a
+
+Criando Volume Físico
+    pvcreate /dev/sdb1
+
+Criando Volume Group
+    vgcreate VG01 /dev/sdb1
+
+Criando Volume Lógico
+    lvcreate --name LV01 --size 50m VG01
+
+Formatando LVM
+    mkfs -t xfs /dev/VG01/LV01
+
+Adicionando Discos ao Volume Group
+    vgextend VG01 /dev/sdc1
+
+Extendendo Volume Lógico
+    lvextend -L +10GB /dev/VG01/LV01
+    lvextend -l +100%FREE /dev/VG01/LV01
+    xfs_growfs /dev/mapper/VG01-LV01
