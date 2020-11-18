@@ -1,8 +1,11 @@
-Subindo vms definidas no arquivo Vagrant
+Subindo vms definidas no arquivo Vagrantfile
 $ vagrant up
 
-Verificando Status das VMs definidas no arquivo Vagrant
+Verificando Status das VMs definidas no arquivo Vagrantfile
 $ vagrant status
+
+Aplicando alterações feitas no arquivo Vagrantfile
+$ vagrant provision
 
 Logando via SSH
 $ vagrant ssh <nome-vm>
