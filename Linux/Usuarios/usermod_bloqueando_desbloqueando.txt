@@ -1,0 +1,56 @@
+Bloquenado usuário local
+===============================================================================
+    $ sudo usermod --lock <usuario_local>
+    or
+    $ sudo usermod -L <usuario_local>
+    or
+    $ sudo passwd -l <usuario_local>
+
+Desnloquenado usuário local
+===============================================================================
+    $ sudo usermod --unlock <usuario_local>
+    or
+    $ sudo usermod -U <usuario_local>
+    or
+    $ sudo passwd -u <usuario_local>
+
+Verificando Status de bloqueio de um usuário local
+===============================================================================
+    $ sudo passwd -S <usuario_local>
+    or
+    $ sudo  passwd --status <usuario_local>
+
+    Status possíveis atribuídos aos usuários:
+        LK: Password locked
+        NP: No password
+        PS: Password set
+
+    Exemplos:
+        tr301005@nuope08-trf1 ~$ sudo passwd --status alexander
+        alexander PS 2020-03-22 0 99999 7 -1 (Definição de senha, criptografia SHA512.)
+        
+        tr301005@nuope08-trf1 ~$ sudo usermod -L alexander
+        
+        tr301005@nuope08-trf1 ~$ sudo passwd --status alexander
+        alexander LK 2020-03-22 0 99999 7 -1 (Senha bloqueada.)
+        
+        tr301005@nuope08-trf1 ~$ sudo usermod -U alexander
+        
+        tr301005@nuope08-trf1 ~$ sudo passwd --status alexander
+        alexander PS 2020-03-22 0 99999 7 -1 (Definição de senha, criptografia SHA512.)
+
+Disabilitando SSH para usuário local
+===============================================================================
+    $ sudo usermod -s /sbin/nologin <usuario_local>
+
+Habilitando SSH para usuário local
+===============================================================================
+    $ sudo usermod -s /bin/bash <usuario_local>
+
+Forçando usuário local trocar senha no próximo login
+===============================================================================
+    $ sudo chage -d 0 <usuario_local>
+
+Informações sobre expiração de senha de um usuário local
+===============================================================================
+    $ sudo chage -l <usuario_local>
