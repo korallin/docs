@@ -1,0 +1,3 @@
+Criando usuário Local sem Shell
+-------------------------------
+# useradd u_apache -g apache --shell=/sbin/nolgin --no-create-home
