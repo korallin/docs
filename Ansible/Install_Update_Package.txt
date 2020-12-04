@@ -1,0 +1,35 @@
+Instalando ou atualizando pacote
+================================
+
+Usando playbook:
+
+    ---
+    - hosts: php
+    remote_user: root
+
+    tasks:
+    - name: Install required packages
+        yum:  update_cache=yes state=latest  name={{ item }}
+        with_items:
+        - git
+        - mcrypt
+        - nginx
+        - php5-cli
+        - php5-curl
+        - php5-fpm
+        - php5-intl
+        - php5-json
+        - php5-mcrypt
+        - php5-sqlite
+        - sqlite3
+
+    - name: Install a list of packages (suitable replacement for 2.11 loop deprecation warning)
+        yum:
+            name:
+            - nginx
+            - postgresql
+            - postgresql-server
+            state: present
+
+Usando adhoc
+    $ ansible -b -m package -a 'name=open-vm-tools.x86_64 state=latest update_cache=yes' srvpje[12]g*
