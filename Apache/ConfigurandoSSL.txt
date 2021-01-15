@@ -1,0 +1,40 @@
+Configurando SSL com certificado auto-assinado de 1024bits
+----------------------------------------------------------
+
+# Gerando certificando com openssl
+openssl req -x509 -nodes -days 730 -newkey rsa:1024 -keyout /etc/pki/tls/private/certificado.key -out /etc/pki/tls/certs/certificado.crt
+
+# Criando o arquivo /var/httpd/conf.d/ssl-customizado.conf com configurações de SSL
+NameVirtualHost *:443
+
+<VirtualHost *:443>
+    ServerAdmin sesol@trf1.jus.br
+    LogLevel warn
+    SSLEngine on
+    SSLCipherSuite HIGH:3DES:!aNULL:!MD5:!SEED:!IDEA
+    SSLProxyCipherSuite HIGH:MEDIUM:!MD5:!RC4
+    SSLHonorCipherOrder on
+    SSLProtocol all -SSLv3
+    SSLProxyProtocol all -SSLv3
+
+    SSLCertificateFile /etc/pki/tls/certs/certificado.crt
+    SSLCertificateKeyFile /etc/pki/tls/private/certificado.key
+
+    <FilesMatch "\.(shtml|phtml|php)$">
+        SSLOptions +StdEnvVars
+    </FilesMatch>
+
+    BrowserMatch "MSIE [2-5]" \
+    nokeepalive ssl-unclean-shutdown \
+    downgrade-1.0 force-response-1.0
+
+    <IfModule log_config_module>
+        LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" a10combined
+
+        <IfModule logio_module>
+            LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" a10combined
+        </IfModule>
+    </IfModule>
+    ErrorLog /var/log/httpd/error-ssl_log
+    CustomLog /var/log/httpd/access-ssl_log a10combined
+</VirtualHost>
