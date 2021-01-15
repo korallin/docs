@@ -1,0 +1,97 @@
+O arquivo /etc/logrotate.conf é um dos mais importantes para efetuarmos a configuração do logrotate, pois  o utilitário lê ele todas as vezes que é executado, e nele podemos inserir as configurações de limpeza/rotação dos arquivos de logs desejadas, através de 2 formas:
+    - Diretamente: incluindo os parâmetros de configuração dentro do arquivo /etc/logrotate.conf;
+    - Indiretamente: incluindo os parâmetros de configuração em arquivos separados, criados na pasta /etc/logrotate.d, pasta que é referenciada através de um include no arquivo /etc/logrotate.conf.
+ 
+Gosto mais da forma indireta, portanto, sugiro a criação de um arquivo com o nome oracle na pasta /etc/logrotate.d, que tenha o conteúdo abaixo:
+    # *** 1: arquivos de log dos listeners e sqlnet:
+    # faz rotacionamento mensal durante 1 ano, eliminando os logs mais velhos que esse periodo. Acrescenta data no nome das copias mensais e trunca arquivo de log original apos a copia. Nao manda email contendo arquivos expirados.
+    /ORACLE_HOME/network/log/*.log {
+    monthly
+    rotate 12
+    copytruncate
+    notifempty
+    missingok
+    nomail
+    noolddir
+    dateext
+    dateformat _%Y%m%d_%s
+    }
+
+    # *** 2: arquivos de log das instancias de bd:
+    # faz rotacionamento mensal durante 1 ano, eliminando os mais velhos que esse periodo. Acrescenta data no nome das copias mensais e trunca arquivo de log original apos a copia. Nao manda email dos arquivos expirados.
+    /ORACLE_BASE/diag/rdbms/*/*/trace/*.log {
+    monthly
+    rotate 12
+    copytruncate
+    notifempty
+    missingok
+    noolddir
+    dateext
+    dateformat _%Y%m%d_%s
+    }
+
+    # *** 3: arquivos de traces das instancias de bd:
+    # diariamente elimina todos arquivos que forem mais velhos que 1 ano, sem gerar copias nem rotacionar os arquivos
+    /ORACLE_BASE/diag/rdbms/*/*/trace/*.tr? {
+    daily
+    rotate 0
+    missingok
+    nocopy
+    maxage 365
+    }
+
+    # *** 4: arquivos de log diversos do EM:
+    # idem "arquivos de log das instancias de bd"
+    /ORACLE_HOME_EM/sysman/log/*.log {
+    monthly
+    rotate 12
+    copytruncate
+    notifempty
+    missingok
+    noolddir
+    dateext
+    dateformat _%Y%m%d_%s
+    }
+
+Podemos verificar que o arquivo oracle acima é composto de 4 partes. Em cada parte ele começa com comentários que descrevem o que será executado, depois segue uma linha que contém o diretório e nome dos arquivos de logs, e por fim, linhas com parâmetros de configuração. A primeira parte foi criada para eliminar e rotacionar os arquivos de log do(s) listener(s) e sqlnet. A segunda foi criada para eliminar/rotacionar os arquivos de log (alert log)  de bancos de dados. A terceira para eliminar arquivos de trace, e a quarta e última parte, para eliminar arquivos de log do Enterprise Manager. Substitua os nomes em vermelho pelos diretórios correspondentes em sua instalação. Faça também alterações/adaptações conforme a sua necessidade. Segue abaixo uma pequena lista de parâmetros que podemos usar para configurar o logrotate:
+
+    - compress: comprimir os logs;
+    - compresscmd: comprimir os logs com especificacao do comando a utilizar. O padrao eh zip;
+    - uncompresscmd: definir o comando para descomprimir os logs. O padrao eh zip;
+    - compressext: especifica a extensao sada para o arquivo de log comprimido;
+    - compressoptions: para possibilitar incluir opcoes aos comandos de compressao. Por exemplo: gzip -5. O padrao eh a compressao maxima (-9);
+    - copy: copia o log sem modificar o original;
+    - copytruncate: copia o log e move o original para outro lugar;
+    - create [mode owner group]: Este é o comando usado para a criacao de um novo arquivo de log vazio apos rotacao Voce pode alterar as permissoes, o dono do arquivo e o grupo;
+    - daily: rotacionar diariamente;
+    - delaycompres: Atrasa a compressao do log para a proxima rotacao;
+    - extension [ext]: Inclui uma extensao para o arquivo de log. Se a compressao usada for a padrao a extensao sera .gz;
+    - ifempty: Rotaciona os logs mesmo quando vazios;
+    - include [file or directory]: Indica outros arquivos de configuracao ou diretorios que tenham arquivos de configuracao para o logrotate;
+    - mail: envia um email com logs extintos;
+    - mailfirst: envia um email com os logs rotacionados;
+    - maillast: envia um email com os logs que serao rotacionados, os logs originais.
+    - missingok: nao enviar mensagem de erro no caso de um arquivo de log nao existir;
+    - monthly: rotaciona os logs mensalmente;
+    - nocompress/nocopy/nocopytruncate/nocreate/nodelaycompress/nomail: negativas aos comandos correspondentes;
+    - nocopy: nao copia o arquivo original deixando-o no lugar;
+    - nomissingok/noolddir/nosharedscripts/notifempty - negativas aos comandos correspondentes;
+    - nooldir: manter os arquivos de log no diretorio de origem;
+    - notifyempty: Nao rotaciona o log se ele estiver vazio;
+    - olddir [directory]: guardar as versoes rotacionadas em outro diretorio;
+    - postrotate/endscript: comandos a serem executados apos rotacao do log;
+    - prerotate/endscript: comandos a serem executados antes da rotacao do log, caso o log seja rotacionado;
+    - firstaction/endscript: comandos a serem executados imediatamente antes dos prerotates comandos;
+    - lastaction/endscript: comandos a serem executados depois daqueles invocados atraves do -postrotate;
+    - rotate: comando para rotacionar os logs;
+    - size: rotacionar os logs quando ultrapassarem o tamanho indicado;
+    - sharedscripts: postrotate e prerotate serao xecutados para cada log que tenha a mesma identificacao. Este comando faz com que sejam executados apenas uma vez;
+    - start: inclui um numero para a base dos logs rotacionados;
+    - tabooext [+] list: mudar a lista de extensoes;
+    - weekly: rotacionar semanalmente.
+   
+   
+Para aprender mais sobre como configurar o logrotate.conf sugiro a leitura dos links das referências. Para testar o logrotate execute a linha de comando abaixo:
+$ /usr/sbin/logrotate --force --verbose /etc/logrotate.d/oracle -s /tmp/logrotate.status
+
+Espero que você tenha aprendido algo, e se tiver qualquer dúvida é só deixar um comentário que eu irei responder o mais breve possível!

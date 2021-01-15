@@ -1,0 +1,12 @@
+# *** 1: arquivos de log gerados diariamente via Log4j da instancia Wildfly standalone
+# faz rotacionamento diario, eliminando os logs mais velhos que 30 dias
+/opt/wildfly/standalone/log/server.log.????-??-?? {
+    daily
+    missingok
+    notifempty
+    compress
+    rotate 1
+    postrotate
+         /bin/find /opt/wildfly/standalone/log/ -type f -iname '*.gz' -mtime +30 -delete
+    endscript
+}
