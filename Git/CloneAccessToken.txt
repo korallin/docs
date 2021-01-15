@@ -2,4 +2,8 @@ Clone via HTTP com Acess Token
 ==============================
 1. Gerar um “Personal Access Token” no Gitlab
 2. Efetuar um Git Clone com o token gerado
+2.1 Caso não informe um usuário e somente gere um Token
     git clone https://oauth2:isy4tDBKwv9Wfb8e73RZ@gitlab.trf1.jus.br/sesof/kickstart.git
+
+2.2 Caso tenha criado um usuário específico, pode ser usado da seguinte forma:
+    git clone https://<usuaio>:<senha>@gitlab.trf1.jus.br/administrativos/gestao-setorial/contas-publicas.git
