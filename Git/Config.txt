@@ -4,3 +4,10 @@ git config --global user.name "Alexander Moreira de Morais"
 # Configurando E-mail
 git config --global user.email "alex.moreira@gmail.com"
 
+# Verificando configurações
+git config --list
+git config -l
+
+# Editando configurações
+git config --edit
+git config -e
