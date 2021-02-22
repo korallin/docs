@@ -1,0 +1,16 @@
+tr301005@nuope08-trf1 ~/$ cat /tmp/listaValores.txt
+4
+4
+4
+6
+4
+4
+4
+4
+4
+6
+4
+4
+
+tr301005@nuope08-trf1 ~/$ cat /tmp/listaValores.txt | paste -s -d + | bc
+52
