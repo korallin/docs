@@ -1,0 +1,7 @@
+Editar o arquivo ~/.bashrc adicionando as seguintes linhas:
+
+#Função que altera o PS1 para exibir o nome da branch, quando dentro de um diretório repo git
+git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+PS1="\u@\h \w \[\033[033m\]\$(git_branch)\[\033[00m\]\$ "
