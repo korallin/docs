@@ -1,0 +1,28 @@
+ Colaboração: Rodrigo Bernardo Pimentel
+
+Data de Publicação: 28 de Junho de 2000
+
+Estou listando alguns "stupid bash tricks" que podem ser úteis ou mesmo divertidos :)
+
+Usarei a notação do Emacs:
+
+    C-a significa "segure a tecla Ctrl e aperte a tecla a"
+    M-a significa "Use a tecla Meta/Alt junto com a tecla a", em que a tecla Meta pode ser o Alt da esquerda, a tecla de função do windows ao lado dela ou o Esc (nesse último caso, não é preciso manter o Esc apertado enquanto se aperta o "a", basta apertar o Esc e em seguida o "a"). A tecla que responde pela Meta varia com cada configuração de teclado.
+
+Além disso, estou assumindo uma configuração padrão do bash. Há configurações alternativas e configurações customizadas que podem ser feitas no arquivo ~/.inputrc. Para mais informações, man bash. 
+
+Combinação de teclas    Resultado
+--------------------    ---------
+C-a                     Ir para o começo da linha
+C-e                     Ir para o final da linha
+M-f                     Andar com o cursor uma palavra para a frente
+M-b                     Andar com o cursor uma palavra para a trás
+C-w                     Apagar do cursor até o começo da palavra
+C-u                     Apagar do cursor até o começo da linha
+C-k                     Apagar do cursos até o final da linha
+C-y                     Re-inserir o último trecho apagado com C-u, C-k ou C-w
+C-d                     Apaga o caracter sob o cursor (como o "Delete", no DOS e em algumas configurações de teclado no Linux)
+C-h                     Apaga o caracter anterior ao cursor. Era o comportamento padrão da tecla Delete, até não muito tempo atrás.
+C-t                     Inverte o caracter sob o cursor e o imediatamente anterior a ele (Para, por exemplo, quando você digitar "celar" ao invés de "clear")
+C-r                     Faz busca incremental para trás no histórico de comandos. Durante uma busca incremental, para se executar o comando exibido na linha, basta usar Enter. Para simplesmente deixar a linha pronta para execução ou edição, use Esc. Para cancelar a busca sem utilizar a linha que estiver na tela, use C-g.
+

@@ -1,0 +1,60 @@
+# Mostrando todo o historico de comandos
+history
+
+# Pesquisando algo no historico de comandos
+history |grep <pesquisa>
+
+# Executando a ultima ocorrencia de um determinado comando do historico
+!vim
+
+# Executar o comando 422 do historico
+!422
+
+# Mostrando o comando 422 do historico sem executar
+!422:p
+
+# Exclui o comando 422 do historico
+history -d 422 
+
+# Limpando o history
+hitory -c 
+rm -rf ~/.bash_history
+
+# Executando o último comando
+!!
+
+# Adicionando data e hora de execução de comandos no historico
+export HISTTIMEFORMAT='%F | %T '
+
+# Alterando quantidade de comandos/linhas armazenadas no ~/.bash_history
+export HISTSIZE=5000
+export HISTFILESIZE=5000
+
+# Desconsiderando registro de comando que tenha espaço na frente do historico de comandos
+export HISTCONTROL=ignorespace
+
+# Executando um comando usando primeiro argumento do comando anterior
+cp arq1 arq2
+ls -lha !^
+> resultado: "ls -lha arq1"
+
+# Executando um comando usando último argumento do comando anterior
+cp arq1 arq2
+ls -lha !$
+> resultado: "ls -lha arq2"
+
+# Executando um comando usando todos os argumentos do comando anterior
+cp arq1 arq2
+ls -lha !*
+> resultado: "ls -lha arq1 arq2"
+
+# Executando um comando usando segundo argumento do comando anterior
+cp arq1 arq2 arq3
+ls -lha !cp:2
+> resultado: "ls -lha arq1 arq2"
+
+# Corrigindo o ultimo comando digitado errado
+history |gep vim
+-bash: gep: command not found
+^gep^grep
+> resultado: 'history |grep vim1
