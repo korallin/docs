@@ -40,6 +40,8 @@ Exemplos
 # Rodando comando às 0h e 12h no primeiro dia do mês a cada 2 meses
 0 0,12 1 */2 * /caminho/script.sh
 
+Impedindo que um determinado usuário possa agendar no crontab, basta colocar o nome do usuário que não pode usar crontab no arquivo /etc/cron.deny
+
 Mais exemplos e validação de quando será rodado o comando, basta incluir a entrada
 do crontab pretendida em https://crontab.guru que será mostrado possíveis erros de
 sintaxes assim como as datas/hora de execução.
