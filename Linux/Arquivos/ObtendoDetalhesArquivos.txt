@@ -1,0 +1,24 @@
+# Obtendo informações detalhadas de um arquivo
+-------------------------------------------------------------------------------
+    # stat /pje/repo/repository/datastore/d8/d5/3d/d8d53d8b82a723b18191150288d06102764fd244
+    File: “/pje/repo/repository/datastore/d8/d5/3d/d8d53d8b82a723b18191150288d06102764fd244”
+    Size: 5609            Blocks: 16         IO Block: 4096   arquivo comum
+    Device: fd02h/64770d    Inode: 21806768702  Links: 1
+    Access: (0640/-rw-r-----)  Uid: ( 1000/     jcr)   Gid: ( 1001/     jcr)
+    Access: 2019-12-14 05:08:48.000000000 -0300
+    Modify: 2019-08-27 14:46:16.000000000 -0300
+    Change: 2020-09-21 07:49:24.692085632 -0300
+    Birth: -
+
+# Pegar data de modificação do arquivo formatado em CSV
+-------------------------------------------------------------------------------
+    $ ls -lh /pje/repo/repository/datastore/d8/d5/3d/d8d53d8b82a723b18191150288d06102764fd244
+    -rw-r----- 1 jcr jcr 5,5K Ago 27  2019 /pje/repo/repository/datastore/d8/d5/3d/d8d53d8b82a723b18191150288d06102764fd244
+
+    $ date +'%Y;%m;%d' -r /pje/repo/repository/datastore/d8/d5/3d/d8d53d8b82a723b18191150288d06102764fd244
+    2019;08;27
+
+# Obtendo tamanho em Bytes de um determinado arquivo
+-------------------------------------------------------------------------------
+    $ du -b /pje/repo/repository/datastore/d8/d5/3d/d8d53d8b82a723b18191150288d06102764fd244 | cut -f 1
+    5609
