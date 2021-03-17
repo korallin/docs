@@ -7,7 +7,7 @@ LISTA_ANO=$LISTA_DIR/arquivosJCR_${DATA}_ANO.txt
 LISTA_MES=$LISTA_DIR/arquivosJCR_${DATA}_MES.txt
 LISTA_DIA=$LISTA_DIR/arquivosJCR_${DATA}_DIA.txt
 REPO=/pje/repo/repository/datastore
-#REPO=/root
+#REPO=/tmp
 
 date > $LISTA
 echo "ANO;MES;DIA;ARQUIVO;BYTES" >> $LISTA
@@ -51,8 +51,8 @@ function contador {
          Q=0
       fi
 
-      T=$(( $T + $_SIZE ))
-      Q=$(( $Q + 1 ))
+      T=`echo "$T + $_SIZE" | bc`
+      Q=`echo "$Q + 1" | bc`
    done
    echo "${D};${Q};${T}"
 }
