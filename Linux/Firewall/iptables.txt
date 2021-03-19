@@ -6,6 +6,10 @@ Listando tabela de regras de firewall por número de sequência das regra
 ===============================================================================
 iptables -L -n --line-numbers
 
+Listando tabela de regras de firewall e estatisticas (verbose)
+===============================================================================
+iptables -nvL
+
 Listando contadores das regras existentes
 ===============================================================================
 iptables -n -L INPUT -v
