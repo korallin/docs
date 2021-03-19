@@ -41,3 +41,12 @@ Extendendo Volume Lógico
     lvextend -r -L +10GB /dev/VG01/LV01
     lvextend -R -l +100%FREE /dev/VG01/LV01
     xfs_growfs /dev/mapper/VG01-LV01
+
+Convertendo LVM de Linear (default) para Striped
+    [root@localhost ~] vgcreate vg1 /dev/sdb /dev/sdc /dev/sdd /dev/sde
+    [root@localhost ~] lvcreate -n lv1 -l 200 vg1 /dev/sdb:0-199
+    [root@localhost ~] lvconvert -y --type raid1 --mirrors 1 vg1/lv1
+    [root@localhost ~] lvconvert -y --type raid5_n vg1/lv1
+    [root@localhost ~] lvconvert -y --stripes 2 vg1/lv1
+    [root@localhost ~] lvconvert -y --type striped vg1/lv1
+    [root@localhost ~] lvs -o +devices
