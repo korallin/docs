@@ -1,0 +1,3 @@
+[root@srvpjejcr ~]# grep jcr /etc/passwd
+jcr:x:1000:1001::/home/jcr:/bin/bash
+[root@localhost ~]# su jcr -c "time /opt/java/bin/jstack -l 130615 > /tmp/jstackJCR.out"
