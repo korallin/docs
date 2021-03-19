@@ -1,0 +1,17 @@
+Modificado o Conector HTTP para a seguinte configuração:
+
+    <Connector port="8080"
+               protocol="org.apache.coyote.http11.Http11NioProtocol"
+               connectionTimeout="900000"
+               keepAliveTimeout="120000"
+               maxKeepAliveRequests="512"
+               connectionUploadTimeout="3600000"
+               disableUploadTimeout="false"
+               prestartminSpareThreads="true"
+               maxThreads="4096"
+               maxIdleTime="60000"
+               minSpareThreads="64"
+               maxSpareThreads="2048"
+               acceptCount="4096"
+               maxConnections="5000"
+               redirectPort="8443" />
