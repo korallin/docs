@@ -1,0 +1,77 @@
+Obter detalhes de um processo
+# ps -ef |head -5
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 Abr01 ?        00:00:14 /usr/lib/systemd/systemd --switched-root --system --deserialize 22
+root         2     0  0 Abr01 ?        00:00:00 [kthreadd]
+root         3     2  0 Abr01 ?        00:00:00 [ksoftirqd/0]
+root         5     2  0 Abr01 ?        00:00:00 [kworker/0:0H]
+
+# ps -aux |head -5
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.0 193416  6284 ?        Ss   Abr01   0:14 /usr/lib/systemd/systemd --switched-root --system --deserialize 22
+root         2  0.0  0.0      0     0 ?        S    Abr01   0:00 [kthreadd]
+root         3  0.0  0.0      0     0 ?        S    Abr01   0:00 [ksoftirqd/0]
+root         5  0.0  0.0      0     0 ?        S<   Abr01   0:00 [kworker/0:0H]
+
+Obtendo data de inicio de um processo especifico
+# ps -p <PID> -o lstart
+                 STARTED
+Thu Apr  1 18:27:46 2021
+
+ou
+
+# ps -p <PID> -o lstart=
+Thu Apr  1 18:27:46 2021
+
+Obtendo todos os processod de um usuario
+# ps -o pid,ppid,ni,pri,gid,c,psr,%mem,%cpu,stime,comm  -u jboss --sort=%cpu
+  PID  PPID  NI PRI   GID  C PSR %MEM %CPU STIME COMMAND
+28785     1   0  19  1001  0  12  0.0  0.0 02:00 startup.sh
+29124     1   0  19  1001  0  12  0.0  0.0 02:01 standalone.sh
+28791 28785   0  19  1001  0  28  0.6  0.1 02:00 java
+29350 29124   0  19  1001 99   1 88.9  146 02:01 java
+
+Listando Arvore de processos
+# ps -eH
+
+As opções mais importantes do comando ps são os seguintes:
+    a - mostra todos os processos existentes;
+    e - exibe as variáveis de ambiente relacionadas aos processos;
+    f - exibe a árvore de execução dos processos;
+    l - exibe mais campos no resultado;
+    m - mostra a quantidade de memória ocupada por cada processo;
+    u - exibe o nome do usuário que iniciou determinado processo e a hora em que isso ocorreu;
+    x - exibe os processos que não estão associados a terminais;
+    w - se o resultado de processo não couber em uma linha, essa opção faz com que o restante seja exibido na linha seguinte. 
+
+
+A seguir, segue a descrição dos campos mostrados anteriormente e alguns que só são mostrados com a combinação lax:
+    USER - nome do usuário dono do processo;
+    UID - número de identificação do usuário dono do processo;
+    PID - número de identificação do processo;
+    PPID - número de identificação do processo pai;
+    %CPU - porcentagem do processamento usado;
+    %MEM - porcentagem da memória usada;
+    VSZ - indica o tamanho virtual do processo;
+    RSS - sigla de Resident Set Size, indica a quantidade de memória usada (em KB);
+    TTY - indica o identificador do terminal do processo;
+    START - hora em que o processo foi iniciado;
+    COMMAND - nome do comando que executa aquele processo;
+    PRI - valor da prioridade do processo;
+    NI - valor preciso da prioridade (geralmente igual aos valores de PRI);
+    WCHAN - mostra a função do kernel onde o processo se encontra em modo suspenso;
+    STAT - indica o estado atual do processo, sendo representado por uma letra:
+    R - executável;
+    D - em espera no disco;
+    S - Suspenso;
+    T - interrompido;
+    Z - Zumbi.
+
+    Essas letras podem ser combinadas e ainda acrescidas de:
+
+    W - processo paginado em disco;
+    < - processo com prioridade maior que o convencional;
+    N - processo com prioridade menor que o convencional;
+    L - processo com alguns recursos bloqueados no kernel.
+
+Fonte: https://www.vivaolinux.com.br/artigo/Gerenciando-Processos-com-o-Shell 
