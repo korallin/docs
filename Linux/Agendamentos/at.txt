@@ -1,0 +1,60 @@
+Agendando tarefas com comando "at"
+==================================
+
+O comando "at" agenda uma tarefa para que seja executada uma única vez em determinado momento.
+
+Algumas opções do comando
+    -c tarefa : o conteúdo da tarefa agendada é enviado para a saída padrão, onde tarefa corresponde a um número de identificação gerado pelo sistema.
+    -d : deleta tarefa agendada. É um alias para o comando atrm.
+    -f arquivo : a tarefa a ser executa está no arquivo especificado.
+    -l : lista as tarefas agendadas. É um alias para o comando atq.
+    -m : envia um e-mail para o usuário quando a tarefa for concluída.
+    -M : nunca envia e-mail para o usuário.
+    -q fila : armazena a tarefa em uma determinada fila. Quando o nome da fila não é fornecido, o sistema coloca a tarefa agendada pelo comando at na fila “a”. As filas podem ser de “a” a “z” e de “A” a “Z”. O nome da fila influencia na prioridade de execução (a fila “a” tem prioridade sobre a fila “b” e fila com letra minúscula tem prioridade sobre fila com letra maiúscula).
+    -t time : o horário de execução da tarefa está no formato timestamp, ou seja, [[CC]YY]MMDDhhmm[.ss], onde
+        CC : os dois primeiros dígitos do ano (opcional);
+        YY : os dois últimos dígitos do ano (só são obrigatórios se os dois primeiros dígitos do ano forem fornecidos);
+        MM : os dois dígitos correspondentes ao més;
+        DD : os dois dígitos correspondentes ao dia;
+        hh : os dois dígitos correspondentes à hora;
+        mm : os dois dígitos correspondentes aos minutos;
+        ss : os dois dígitos correspondentes aos segundos (opcional).
+
+Formato do horário
+    - São aceitas horas no formato HHMM ou no formato HH:MM. Outras opções válidas para horas são midnight (meia-noite), noon (meio-dia), teatime (hora do chá, ou seja 16:00) e now (agora).
+    - Junto com a hora pode-se também especificar o dia da tarefa no formato MMDDAA, MM/DD/AA ou MM.DD.AA. Além disso, é possível também definir datas como today (hoje) e tomorrow (amanhã).
+    - Outra forma de definir o horário de execução de uma tarefa é especificar uma hora mais um contador de tempo. Por exemplo, 8:00 + 3 days marca a tarefa para ser executada daqui a 3 dias às 8:00 horas da manhã. Pode-se usar como contador de tempo os termos minutes (minutos), hours (horas), days (dias) e weeks (semanas).
+
+Listando tarefas
+    $ at -l
+    ou
+    $ atq
+
+Detalhes de uma tarefa agendada
+    $ at -c <ID_TAREFA>
+
+Removendo tarefa agendada
+    $ at -d <ID_TAREFA>
+
+Exemplos:
+    Para agendar a execução do arquivo script.s às 17:22 do mesmo dia
+    $ at -f script.sh 17:22
+
+    Para agendar a execução do arquivo script.s mei-dia do mesmo dia
+    $ at -f script.sh noon today
+
+    Para agendar a execução do arquivo script.s às 20:00 do dia seguinte
+    $ at -f script.sh 20:00 tomorrow
+
+    Para agendar a execução do arquivo script.s às 16:00 do dia seguinte
+    $ at -f script.sh teatime tomorrow
+
+    Para agendar a execução do arquivo script.s às 16:00 daqui 2 dias da data atual
+    $ at teatime +2 days
+
+
+Observações
+    - O daemon responsável pela execução das tarefas agendadas pelo comando at é o atd. Caso ele não esteja iniciado, deve ser iniciado (systemctl start atd) antes de agendar tarefas com o comando at.
+    - As tarefas agendadas ficam armazenadas em /var/spool/cron/atjobs.
+    - Informações sobre a execução podem ser encontradas em /var/log/auth.log.
+    - A tarefa agendada com o comando at é executada apenas uma vez. Para agendar tarefas que devem ser executadas periodicamente, use o comando crontab.
