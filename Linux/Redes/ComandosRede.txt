@@ -21,3 +21,10 @@ arp -a 	                                                        ip neigh
 arp -v 	                                                        ip -s neigh
 arp -s 192.168.2.33 1:2:3:4:5:6 	                            ip neigh add 192.168.3.33 lladdr 1:2:3:4:5:6 dev enp6s0
 arp -i enp6s0 -d 192.168.2.254 	                                ip neigh del 192.168.2.254 dev wlp7s0
+
+Verificar capacidade da interface de rede
+$ sudo ethtool enp1s0f0 |grep Speed
+        Speed: 100Mb/s
+
+$ cat /sys/class/net/enp1s0f0/speed
+100
