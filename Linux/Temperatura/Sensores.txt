@@ -1,0 +1,44 @@
+Verificando Temperatura CPU no Linux (CentOS 7)
+===============================================
+$ sudo yum install lm_sensors -y
+$ sudo sensors-detect (Responder YES para tudo)
+$ sensors
+    acpitz-virtual-0
+    Adapter: Virtual device
+    temp1:        +27.8°C  (crit = +119.0°C)
+    temp2:        +29.8°C  (crit = +119.0°C)
+
+    coretemp-isa-0000
+    Adapter: ISA adapter
+    Package id 0:  +55.0°C  (high = +74.0°C, crit = +80.0°C)
+    Core 0:        +53.0°C  (high = +74.0°C, crit = +80.0°C)
+    Core 1:        +53.0°C  (high = +74.0°C, crit = +80.0°C)
+    Core 2:        +53.0°C  (high = +74.0°C, crit = +80.0°C)
+    Core 3:        +53.0°C  (high = +74.0°C, crit = +80.0°C)
+
+Verificando Temperatura HDD no Linux (CentOS 7)
+===============================================
+$ sudo yum install hddtemp -y
+$ hddtemp
+    /dev/sda: MKNSSDRE480GB: 43°C
+
+
+Verificando Temperatura CPU e HDD  (CentOS 7)
+===============================================
+$ watch 'sensors; hddtemp'
+    Every 2,0s: sensors; hddtemp                   Mon Apr 12 10:49:50 2021
+
+    acpitz-virtual-0
+    Adapter: Virtual device
+    temp1:        +27.8°C  (crit = +119.0°C)
+    temp2:        +29.8°C  (crit = +119.0°C)
+
+    coretemp-isa-0000
+    Adapter: ISA adapter
+    Package id 0:  +52.0°C  (high = +74.0°C, crit = +80.0°C)
+    Core 0:        +52.0°C  (high = +74.0°C, crit = +80.0°C)
+    Core 1:        +51.0°C  (high = +74.0°C, crit = +80.0°C)
+    Core 2:        +52.0°C  (high = +74.0°C, crit = +80.0°C)
+    Core 3:        +51.0°C  (high = +74.0°C, crit = +80.0°C)
+
+    /dev/sda: MKNSSDRE480GB: 42°C
