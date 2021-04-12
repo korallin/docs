@@ -22,6 +22,7 @@ Exemplo de logs registrados com formato A10 acima:
 Executando goaccess com LogFormat customizado acima
     goaccess -f /var/log/httpd/pje1g.trf1.jus.br_access_log-20210409 --date-format='%d/%b/%Y' --time-format='%H:%M:%S' --log-format='%h %^[%d %t.%^ %^] "%r" %s %b %^ %^ (%^) (%^) (%^)' > goaccess_PJe.html &
     goaccess -a -f /var/log/httpd/pje1g.trf1.jus.br_access_log-2021041* -o /var/log/httpd/investigacao/goaccess_PJe-1.html --date-format='%d/%b/%Y' --time-format='%H:%M:%S' --log-format='%h %^[%d %t.%^ %^] "%r" %s %b "%R" "%u" (%^) (%^) (%^)' &
+    cat ../pje1g.trf1.jus.br_access_log-20210409 ../pje1g.trf1.jus.br_access_log-2021041* ../pje1g.trf1.jus.br_access_log | goaccess -a -o /var/log/httpd/investigacao/goaccess_PJe-v2.html --date-format='%d/%b/%Y' --time-format='%H:%M:%S' --log-format='%h %^[%d %t.%^ %^] "%r" %s %b "%R" "%u" (%^) (%^) (%^)' &
 
 log-format
 ==========
