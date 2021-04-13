@@ -1,0 +1,121 @@
+Mostrando primeiro campo de uma lista separada por ':'
+    $ awk -F':' '{ print $1 }' /etc/passwd
+
+Mostrando linhas que atenda um determinado padrão '/bin/bash'
+    $ awk -F':' '$7 == "/bin/bash"' /etc/passwd
+    root:x:0:0:root:/root:/bin/bash
+    postgres:x:26:26:PostgreSQL Server:/var/lib/pgsql:/bin/bash
+    alexander:x:1000:1000::/home/alexander:/bin/bash
+
+Mostrando Primeiro campo que atenda um determinado padrão '/bin/bash'
+    $ awk -F':' '$7 == "/bin/bash" { print $1 }' /etc/passwd
+    root
+    postgres
+    alexander
+
+Mostrando Linhas que contém 'root' ou 'postgres' ou 'alexander'
+    $ awk '/root|postgres|alexander/' /etc/passwd
+    root:x:0:0:root:/root:/bin/bash
+    operator:x:11:0:operator:/root:/sbin/nologin
+    postgres:x:26:26:PostgreSQL Server:/var/lib/pgsql:/bin/bash
+    alexander:x:1000:1000::/home/alexander:/bin/bash
+
+Localizando valor e mostrando quarto campo
+    $ whois cyberciti.com
+        Domain Name: CYBERCITI.COM
+        Registry Domain ID: 101396018_DOMAIN_COM-VRSN
+        Registrar WHOIS Server: whois.namecheap.com
+        Registrar URL: http://www.namecheap.com
+        Updated Date: 2019-12-15T17:27:01Z
+        Creation Date: 2003-07-31T18:42:58Z
+        Registry Expiry Date: 2021-07-31T18:42:58Z
+        Registrar: NameCheap, Inc.
+        Registrar IANA ID: 1068
+        Registrar Abuse Contact Email: abuse@namecheap.com
+        Registrar Abuse Contact Phone: +1.6613102107
+        Domain Status: clientTransferProhibited https://icann.org/epp#clientTransferProhibited
+        Name Server: DNS1.REGISTRAR-SERVERS.COM
+        Name Server: DNS2.REGISTRAR-SERVERS.COM
+        DNSSEC: signedDelegation
+        DNSSEC DS Data: 32711 13 1 1284A1A478C97150ECF3C1A6B9C9B26B379B1112
+        URL of the ICANN Whois Inaccuracy Complaint Form: https://www.icann.org/wicf/
+
+    $ whois cyberciti.com | awk '/Registry Expiry Date:/ { print $4 }'
+    2021-07-31T18:42:58Z
+
+Mostrando linhas onde o oitavo campo menor que 25 mantendo primeira linha de cabeçalho
+    $ cat /tmp/lista.txt
+    C1      C2                C3  C4  C5 C6          C7            C8 C9
+    ======= ================= === === == =========== ============= == =========
+    12-31   Airport           189 379 41 49.70946503 -124.91377258 20 2880 30.8
+    01-01   AlberniElementary 165 331 16 49.26100922 -124.80662537 40 5760 26.1
+    01-09   BamfieldMarine    161 323 23 48.83490372 -125.13572693 20 2875 27.4
+    01-10   BamfieldMarine    161 323 23 48.83490372 -125.13572693 30 3068 38.6
+
+    $ $ awk '(NR==1) || ($8 <= 20)' /tmp/lista.txt
+    C1      C2                C3  C4  C5 C6          C7            C8 C9
+    12-31   Airport           189 379 41 49.70946503 -124.91377258 20 2880 30.8
+    01-09   BamfieldMarine    161 323 23 48.83490372 -125.13572693 20 2875 27.4
+
+    Mostrando linhas onde o oitavo campo faz parte de um intervalo maior que 20 e menor que 40 mantendo cabecalho
+    $ awk '(NR==1) || ( ($8 > 20) && ($8 < 40) )' /tmp/lista.txt
+    C1      C2                C3  C4  C5 C6          C7            C8 C9
+    01-10   BamfieldMarine    161 323 23 48.83490372 -125.13572693 30 3068 38.6
+
+
+Usando Regex e Substring para pegar parte de uma String
+    $ cat lista.txt
+    ZZ12345678-20170101.XML
+    ZZ87654321-19990101.XML
+    ZZAA123456-20170101.XML
+    ZZAA123456-20170101.XML
+    ZZAA123456A1-20170101.XML
+    ZZBB654321B2-19990101.XML
+    ZZCC123456C3-20170101.XML
+
+    $ awk 'match($0,/ZZ([[:upper:]]*[0-9]*)/,a){print a[1]}' lista.txt
+    12345678
+    87654321
+    AA123456
+    AA123456
+    AA123456
+    BB654321
+    CC123456
+
+    $ awk '{print substr($0,3,8)}' /tmp/lista.txt
+    12345678
+    87654321
+    AA123456
+    AA123456
+    AA123456
+    BB654321
+    CC123456
+
+Mostrando a primeira linha de um determinado arquivo
+    $ awk "NR==1{print}" /etc/resolv.conf
+
+Trabalhando com ponto flutuante delimitado em 3 casas decimais
+    $ awk 'BEGIN {printf "%.3f\n", 2005.50 / 3}'
+
+Somando todos os números da primeira coluna de um arquivo
+    $ awk '{total += $1} END {print total}' lista.txt
+
+Chamando um programa AWK em um arquivo
+    $ cat input.txt
+    Ter Abr 13 10:51:42 -03 2021
+
+    $ cat codigo.awk
+    BEGIN{a=1+1}
+    {print a}
+    END{}
+
+    $ echo | awk -f codigo.awk
+    2
+
+    $ awk -f codigo.awk input.txt
+    2
+
+Passando variaveis ScriptShell para AWK
+    $ n1=5
+    $ n2=10
+    $ echo | awk -v x=$n1 -v y=$n2 'BEGIN{ans=x+y} {print ans} END{}'
