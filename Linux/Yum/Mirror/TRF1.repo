@@ -1,0 +1,37 @@
+[base]
+name=TRF1 Repo: CentOS-$releasever - Base
+baseurl=http://srvrepocentos-trf1.trf1.gov.br/repos/centos/7/os/$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+
+[updates]
+name=TRF1 Repo: CentOS-$releasever - Updates
+baseurl=http://srvrepocentos-trf1.trf1.gov.br/repos/centos/7/updates/$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+
+[extras]
+name=TRF1 Repo: CentOS-$releasever - Updates
+baseurl=http://srvrepocentos-trf1.trf1.gov.br/repos/centos/7/extras/$basearch/
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+
+[PaaS]
+name=TRF1 Repo: CentOS-$releasever - PaaS
+baseurl=http://srvrepocentos-trf1.trf1.gov.br/repos/centos/7/paas/$basearch/openshift-origin/
+gpgcheck=0
+gpgkey=
+
+[epel]
+name=TRF1 Repo: Extra Packages for Enterprise Linux 7 - $basearch
+baseurl=http://srvrepocentos-trf1.trf1.gov.br/repos/epel/7/$basearch/
+enabled=1
+gpgcheck=0
+gpgkey=
+
+[docker]
+name=TRF1 Repo: Docker CE Stable CentOS-$releasever - $basearch
+baseurl=http://srvrepocentos-trf1.trf1.gov.br/repos/docker/linux/centos/7/$basearch//stable
+enabled=1
+gpgcheck=1
+gpgkey=http://srvrepocentos-trf1.trf1.gov.br/repos/docker/gpg
