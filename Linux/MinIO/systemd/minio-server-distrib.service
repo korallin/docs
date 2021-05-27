@@ -1,0 +1,26 @@
+[Unit]
+Description = Service Minio
+Documentation = https://docs.minio.io
+Requires = repositorio-pje1.mount repositorio-pje2.mount repositorio-pje3.mount repositorio-pje4.mount
+After = network-online.target repositorio-pje1.mount repositorio-pje2.mount repositorio-pje3.mount repositorio-pje4.mount
+
+[Service]
+User=minio
+Group=minio
+
+StandardOutput=journal
+StandardError=inherit
+LimitNOFILE=65536
+TimeoutStopSec=0
+KillSignal=SIGTERM
+SendSIGKILL=no
+SuccessExitStatus=0
+
+Environment=export MINIO_HTTP_TRACE=/var/log/minio/minio.log
+Environment=export MINIO_PROMETHEUS_AUTH_TYPE="public"
+Environment=export MINIO_ROOT_USER=miniopje
+Environment=export MINIO_ROOT_PASSWORD=67e8d5353f115facce8a1a2a683d9bda
+ExecStart = /repositorio/minio-server/bin/minio server http://srvpjehmlminio{3...4}/repositorio/pje{1...4}
+
+[Install]
+WantedBy = multi-user.target

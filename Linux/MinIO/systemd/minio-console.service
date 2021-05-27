@@ -1,0 +1,29 @@
+[Unit]
+Description = Service Minio Admin Console
+Documentation = https://docs.minio.io
+After = network-online.target
+
+[Service]
+User=minio
+Group=minio
+
+StandardOutput=journal
+StandardError=inherit
+LimitNOFILE=65536
+TimeoutStopSec=0
+KillSignal=SIGTERM
+SendSIGKILL=no
+SuccessExitStatus=0
+
+Environment=export MINIO_HTTP_TRACE=/var/log/minio/minio-console.log
+Environment=export CONSOLE_PBKDF_PASSPHRASE=9a875a6f14d2a5d034caa60db4c2720aa9d16609
+Environment=export CONSOLE_PBKDF_SALT=9a875a6f14d2a5d034caa60db4c2720aa9d16609
+Environment=export CONSOLE_MINIO_SERVER=http://localhost:9000
+ExecStart = /repositorio/minio-server/bin/console-linux-amd64 server --port 8080
+
+# Login
+# - user: console
+# - pasw: 19689754
+
+[Install]
+WantedBy = multi-user.target
