@@ -166,11 +166,12 @@ sr0              11:0    1 1024M  0 rom
   root      centos -wi-ao----    1 linear   <6.20g      0  /dev/sda2(205)
   swap      centos -wi-ao----    1 linear  820.00m      0  /dev/sda2(0)
 ```
-Onde:
-    -L: Tamanho em GIGA/MEGA
-    -i: Quantidade de discos
-    -I: Tamanho da coluna
-    -n: Nome do LVOL
+
+- Legenda:
+  - -L: Tamanho em GIGA/MEGA
+  - -i: Quantidade de discos
+  - -I: Tamanho da coluna
+  - -n: Nome do LVOL
 
 Se por acaso for criado um LV com tamanho diferente dos multiplos da quantidade de discos, o LVM faz um ajuste para que o tamanho fique distribuidos de forma euilibrada em todos os discos que compõe o VG. Como por exemplo abaixo:
 ```shell
