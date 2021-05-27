@@ -1,0 +1,25 @@
+
+Bom, nessa versão, inclui implementação na segurança ao protocolo como privacidade, autenticação e controle de acesso.
+
+Instalando o SNMP:
+
+# yum install net-snmp-utils net-snmp-devel -y
+
+Agora vamos criar o usuário e senha para o SNMP:
+
+# net-snmp-config --create-snmpv3-user -a SENHA USERNAME
+
+E irá aparecer uma mensagem na tela, assim:
+
+adding the following line to /var/net-snmp/snmpd.conf:
+     createUser USERNAME MD5 "SENHA" DES
+adding the following line to /usr/share/snmp/snmpd.conf:
+     rwuser USERNAME
+
+Pronto, só reiniciar o SNMP:
+
+# service snmpd restart
+
+Pronto, já está funcionando. E para testar, digite:
+
+# snmpwalk -v 3 -a md5 -A SENHA -l authNoPriv -u USERNAME localhost

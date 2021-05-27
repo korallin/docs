@@ -1,0 +1,23 @@
+Instalando os pacotes
+    # yum -y install net-snmp net-snmp-utils
+    
+Backup do arquivo de configuração original
+    # cp /etc/snmp/snmpd.conf /etc/snmp/snmpd.conf.original
+
+Ajustando configuração no arquivo /etc/snmp/snmpd.conf permitindo coleta de métricas apenas para o host 172.16.60.124
+    1) incluir as linhas abaixo:
+    view    systemview    included   .1.3
+    rocommunity public 172.16.60.124/32
+
+    2) Reiniciar serviço
+    # systemctl enable snmpd
+    # systemctl restart snmpd
+
+    3) Fazer um teste de coleta
+    # snmpwalk -v 1 -c public localhost sysname
+    SNMPv2-MIB::sysName.0 = STRING: srvpjehmlspb01
+
+Liberando acesso firewall
+    # firewall-cmd –zone=public –add-port=161/udp –permanent
+    # firewall-cmd –zone=public –add-port=161/tcp –permanent
+    # firewall-cmd –reload
