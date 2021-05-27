@@ -157,7 +157,7 @@ sr0              11:0    1 1024M  0 rom
 
 ### Criando LV com blocos de 128kb
 ```shell
-[root@m4tr1x ~]# lvcreate -L300M -i3 -I 128 -n lv_stripe VG01
+[root@m4tr1x ~]# lvcreate -L300M -i3 -I 128k -n lv_stripe VG01
   Logical volume "lv_stripe" created.
 
 [root@m4tr1x ~]# lvs --segments -o+stripe_size,devices
@@ -175,7 +175,7 @@ sr0              11:0    1 1024M  0 rom
 
 Se por acaso for criado um LV com tamanho diferente dos multiplos da quantidade de discos, o LVM faz um ajuste para que o tamanho fique distribuidos de forma euilibrada em todos os discos que compõe o VG. Como por exemplo abaixo:
 ```shell
-[root@m4tr1x ~]# lvcreate -L50M -i3 -I 128 -n lv_stripe1 VG01
+[root@m4tr1x ~]# lvcreate -L50M -i3 -I 128k -n lv_stripe1 VG01
   Rounding up size to full physical extent 52.00 MiB
   Rounding size 52.00 MiB (13 extents) up to stripe boundary size 60.00 MiB(15 extents).
   Logical volume "lv_stripe1" created.
@@ -201,6 +201,7 @@ Se por acaso for criado um LV com tamanho diferente dos multiplos da quantidade 
 Fonte: https://web.mit.edu/rhel-doc/5/RHEL-5-manual/Cluster_Logical_Volume_Manager/striped_volumes.html
 
 ### Convertendo LVM de Linear (default) para Striped
+**Procedimento ainda não foi testado!**
 ```shell
     [root@localhost ~] vgcreate vg1 /dev/sdb /dev/sdc /dev/sdd /dev/sde
     [root@localhost ~] lvcreate -n lv1 -l 200 vg1 /dev/sdb:0-199
