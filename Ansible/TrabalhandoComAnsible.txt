@@ -1,0 +1,134 @@
+Trabalhando com Ansible
+
+    # Criando inventario local (Lembrando que o nome do host tem que responder pelo DNS ou pelo arquivo /etc/hosts)
+    vim ansible.inventary
+      <hostname1>
+      <hostname2>
+    
+      [grupo1]
+      <hostname1>
+    
+      [grupo2]
+      <hostname2>
+    
+      [grupo3]
+      grupo1
+      grupo2
+    
+    # Executando comando usando invetario local
+    ansible -i ../ansible.inventary -m ping [host|grupo|all] -u root -k
+    
+    # Executando comando usando invetario local exceto no grupo3
+    ansible -i ../ansible.inventary -m ping 'all,!grupo3' -u root -k
+    
+    # Executando comando
+    ansible -i zabbix.py Aplicação/PJe2/Wildfly -a "uptime"
+    
+    # Executando sequencialmente ações em um grupo de hosts
+    ansible --forks 1 -b -m service -a "name=httpd state=restarted" srvpjeprxprd*
+    
+    # Iniciando todos os Jboss nos hosts srvappprd01-*
+    ansible Linux -m shell -a 'for arq in $(ls /etc/init.d/jboss_*); do sudo $arq start; done' -l srvappprd01-*
+    
+    # Executando multiplos comandos SHELL
+    ansible -i /home/tr301005/workspace/ansible/zabbix.py Linux -m shell -a "cat /etc/redhat-release; echo '--------'" > /tmp/lista.txt
+    
+    # Comentando linha no /etc/crontab dos servidores RED nas localidades
+    ansible -i /home/tr301005/workspace/ansible/zabbix.py Aplicação/RED -a "sudo sed -i '/analisa_inbox/{s/^/#/}' /etc/crontab" -l srvred01-*
+    
+    # Executando comandos paralelos via ansible
+    ansible Aplicação/PJe2/Wildfly -f 50 -a "sudo systemctl status wildfly" -l srvpje[12]g*
+    
+    # Alterando parametros Sysctl (/etc/sysctl.con)
+    ansible -b -m sysctl -a 'name=fs.file-max value=1600000 reload=yes' srvpje[12]gqtz*
+    
+    # Copiando arquivos
+    ansible -b -m copy -a 'remote_src=yes src=/pje_bin/limits.conf dest=/etc/security/limits.conf' srvpje[12]gjb*
+    
+    # Listando grupos zabbix
+    ansible-inventory --graph
+    ansible -i zabbix.py Aplicação/PJe2/Wildfly --list-hosts
+    ansible -i zabbix.py Aplicação/PJe2/Wildfly --list-hosts -l srvpje1g*
+    
+    # Copiando arquivos
+    ansible Aplicação/PJe2/Wildfly -m copy -a "src=/tmp/1.jpeg dest=/tmp/" -f 8 -l srvpje[12]gmni*
+    
+    # Pós instalação Kickstart
+    ansible-playbook playbooks/linux-basic/linux-basic.yml -l srvbd16-trf1.trf1.gov.br -u root -k
+      Senha de root deve ser fornecida para primeira execução do playbook. Senha: toor
+    
+    # Integrando com AD e trocando chaves
+    ansible-playbook -i zabbix.py playbooks/linux-basic/sssd.yml --user=root --ask-pass -l temp.trf1.gov.br
+    
+    # Instalando agente do zabbix
+    ansible-playbook -i zabbix.py playbooks/linux-basic/zabbix-agent.yml -l srvpje2gprv.trf1.gov.br
+    
+    
+    
+    # Depois de alterar regras de Firewall PJe 2.0 rodar o playbook abaixo
+    ansible-playbook playbooks/pje2.0/firewall-pje.yml -l srvpjejcr.trf1.gov.br
+    
+    # Fazendo Deploy PJe 2.0
+    ansible-playbook playbooks/pje2.0/deploy/hml/deploy.yml
+    ansible-playbook playbooks/pje2.0/deploy/prd/deploy.yml
+    ansible-playbook playbooks/pje2.0/deploy/trn/deploy.yml
+    
+    # Reiniciando todos os Zabbix Agent Linux
+    ansible-playbook playbooks/linux-basic/zabbix-agent.yml -l Linux
+    
+    
+    # Verificando tamanho dos repositorios MINIO's
+    ansible Aplicação/Minio  -m shell -a "df -h /dados"
+
+
+Removendo arquivo
+    ansible -b -m file -a "path=/tmp/arquivo.txt state=absent" srvteste*
+
+
+Removendo arquivo pacct
+
+Arquivo pacct é responsável por guardar histórico de comandos executados, e ele pode crescer muito ao ponto de estourar filesystem. Caso não queira acompanhar/auditar os comandos executados por usuários e scripts de automação, basta remover o arquivo e criar um link simbólico para /dev/null conforme comando abaixo
+
+    ansible Linux --fork=10 -b -m shell -a 'unlink /var/log/pacct; rm -rf /var/log/pacct; ln -s /dev/null /var/log/pacct' srv*
+
+
+Listando Hosts afetados por um Playbook
+    $ ansible-playbook playbook.yml -i inventario.ini --list-hosts
+    
+    playbook: playbook.yml
+    
+      play #1 (SERVIDORES): SERVIDORES      TAGS: []
+        pattern: [u'SERVIDORES']
+        hosts (7):
+          srvbd32-trf1
+          srvpje1gjb02
+          srvpje1gjb03
+          srvpje1gjb01
+          srvbd33-trf1
+          srvpje1gjb04
+          srvbd31-trf1
+
+
+Listando Tasks que serão executadas em um playbook
+    $ ansible-playbook playbook.yml -i inventario.ini --list-tasks
+    
+    playbook: playbook.yml
+    
+      play #1 (SERVIDORES): SERVIDORES      TAGS: []
+        tasks:
+          regex : Servidores BANCO com Regex        TAGS: []
+          regex : Servidores PJE com Regex  TAGS: []
+          regex : Servidores BANCO usando Lista de variaveis        TAGS: []
+
+
+Substituindo string em arquivo
+    ansible -i /tmp/inventarioSeban -b -m replace -a 'path=/tmp/sshd_config regexp="^AllowUsers" replace="AlloUsers xpto"' TAG_PRESENTE
+Criando pasta e setando dono e permissões
+    ansible -i /tmp/inventarioSeban -b -m file -a "path=/u01/tmp owner=oracle group=oinstall mode=0770 state=directory" srvbdclone-mg.mg.trf1.gov.br
+Rodando comandos com outro usuário via sudo
+    $ ansible -b -m shell -a 'sudo -H -u oracle bash -c "id"' srvbd7-trf1*
+    [WARNING]: Consider using 'become', 'become_method', and 'become_user' rather than running sudo
+    [WARNING]: Platform linux on host srvbd7-trf1.trf1.gov.br is using the discovered Python interpreter at /usr/bin/python, but future installation of another Python interpreter could change this. See
+    https://docs.ansible.com/ansible/2.9/reference_appendices/interpreter_discovery.html for more information.
+    srvbd7-trf1.trf1.gov.br | CHANGED | rc=0 >>
+    uid=54321(oracle) gid=54321(oinstall) grupos=54321(oinstall),54322(dba),54328(asmdba)
