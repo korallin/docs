@@ -1,0 +1,5 @@
+AuthName "Acesso Restrito"
+AuthType Basic
+#htpasswd -c /etc/apache.pwd usuario1
+AuthUserFile /etc/apache.pwd
+require valid-user
