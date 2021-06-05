@@ -64,6 +64,65 @@ Metadata  :
   Content-Type: application/pdf
 ```
 
+## Criando usuário com acesso apenas em um determinado Bucket
+
+### Criando Usuarios
+> mc admin user add pjehmlminio usuario1 senha123
+> mc admin user add pjehmlminio usuario2 senha456
+> mc admin user add pjehmlminio usuario3 senha789
+
+### Criando Grupo
+> mc admin group add pjehmlminio grupoPje usuario1 usuario2
+
+### Adicionando Usuarios no Grupo
+> mc admin group add pjehmlminio grupoPje usuario3
+
+### Verificando Usuarios que fazem parte de um Grupo
+```bash
+tr301005@nuope08-trf1 /opt/minio$ mc admin group info pjehmlminio grupoPje
+Group: grupoPje
+Status: enabled
+Policy:
+Members: usuario1,usuario2,usuario3
+```
+
+### Criando Policy para acesso Leitura e Escrita em um Bucket
+```bash
+cat > pjeBucket.json << EOF
+{
+   "Version":"2012-10-17",
+   "Statement":[
+      {
+         "Effect":"Allow",
+         "Action": "s3:ListAllMyBuckets",
+         "Resource":"arn:aws:s3:::*"
+      },
+      {
+         "Effect":"Allow",
+         "Action":["s3:ListBucket","s3:GetBucketLocation"],
+         "Resource":"arn:aws:s3:::br.jus.pje.5.09"
+      },
+      {
+         "Effect":"Allow",
+         "Action":[
+            "s3:PutObject",
+            "s3:GetObject",
+            "s3:DeleteObject"
+         ],
+         "Resource":"arn:aws:s3:::br.jus.pje.5.09/*"
+      }
+   ]
+}
+EOF
+
+./mc admin policy add pjehmlminio PjeReadWrite pjeBucket.json
+./mc admin policy set pjehmlminio PjeReadWrite group=SESOL
+```
+
+Acessando o Bucket http://pjehmlminio.trf1.jus.br:9000/minio/br.jus.pje.5.09/
+
+
+
 #### Espaço utilizado
 ##### Espaço total sumarizado de um Bucket
 ```bash
