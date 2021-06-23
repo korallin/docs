@@ -7,4 +7,4 @@ Testado com o C6 Bank, mas funciona em todos os outros bancos.
 
 Notas: - Em futuras atualizações do app, o processo isolado (com.c6bank.app:hj.yj) deve mudar de nome, mas basta habilitar o Magisk Hide sobre o novo e deve estar tudo resolvido. - Para os outros bancos o procedimento é o mesmo, só muda o que será selecionado no Magisk Hide (nomes diferentes dos processos. - Lembrando que fora esses passos acima, é necessário alterar o nome do app do Magisk dentro dele mesmo, na opção Ocultar Magisk.
 
-https://www.youtube.com/watch?v=Kd1VJiVr7Ug
+Comentário retirado do link https://www.youtube.com/watch?v=Kd1VJiVr7Ug
