@@ -128,78 +128,82 @@ ou
 ```
 
 #### Reduzindo Volume Lógico
-  Step 0. Lab Preparation:
-  – Create a primary lvm partition using fdisk with 2 Gib size:
+##### Step 0. Lab Preparation:
+###### Create a primary lvm partition using fdisk with 2 Gib size:
   ```shell
   # fdisk /dev/sdb
   # partprobe
   ```
 
-  – Create a physical volume:
+###### Create a physical volume:
   ```shell
   # pvcreate /dev/sdb1 # create a physical volume
   ```
 
-  – Create a volume group with an extent size of 16M:
+######  Create a volume group with an extent size of 16M:
   ```shell
   # vgcreate -s 16M vg00 /dev/sdb1 
   ```
-  – Create logical volume with size of 800M (50 extents)
+
+###### Create logical volume with size of 800M (50 extents)
   ```shell
   # lvcreate -L 800M -n lv00 vg00 
   ```
-  – Convert the logical volume to xfs file system
+  
+###### Convert the logical volume to xfs file system
   ```shell
   # mkfs.xfs /dev/vg00/lv00
   ```
-  – Mount the partition to a directory
+
+###### Mount the partition to a directory
   ```shell
   # mkdir /test 
   # mount /dev/vg00/pv00 /test
   ```
-  – Create some file in the directory
+
+###### Create some file in the directory
   ```shell
   # dd if=/dev/zero of=/test/file01 bs=1024k count=10
   # dd if=/dev/zero of=/test/file02 bs=1024k count=10
   # dd if=/dev/zero of=/test/file03 bs=1024k count=10
   ```
   
-  – Install the xfsdump package
+###### Install the xfsdump package
   ```shell
   # yum install xfsdump -y
   ```
   
-  Step 1. Backup The Data
+##### Step 1. Backup The Data
   ```shell
   # xfsdump -f /tmp/test.dump /test
   ```
   
-  Step 2. Unmount The Partition
+##### Step 2. Unmount The Partition
   ```shell
   # umount /test
   ```
 
-  Step 3. Reduce The Partition Size
+##### Step 3. Reduce The Partition Size
   ```shell
   # lvreduce -L 400M /dev/vg00/lv00
   ```
 
-  Step 4. Format The Partition With XFS Filesystem
+##### Step 4. Format The Partition With XFS Filesystem
   ```shell
   # mkfs.xfs -f /dev/vg00/lv00
   ```
 
-  Step 5. Remount the Parition
+##### Step 5. Remount the Parition
   ```shell
   # mount /dev/vg00/lv00 /test
   ```
   
-  Step 6. Restore The Data
+##### Step 6. Restore The Data
   ```shell
   # xfsrestore -f /tmp/test.dump /test
   ```
 
-  – check the content of partition
+##### check the content of partition
   ```shell
   # ls -l /test
   ```
