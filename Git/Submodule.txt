@@ -1,2 +1,27 @@
-# Iniciando um submodule dentro de um projeto GIT
-git submodule update --init
+Submodulos são repositórios detro de repositórios.
+
+Funcionalidades assim surgiram devido a necessidades de inserir uma biblioteca ou outro projeto em outros projetos. No entanto, são projetos distintos, e seus desenvolvimentos são totalmente independentes. Esse tipo de problema deve ser encarado com o GitSubmodules e com o próprio Git – resolver o problema dessa dependência externa.
+
+
+# Adicionando um submodule dentro de um projeto Git
+alexander@DESKTOP-K4HUIJP MINGW64 ~/Workspace/cursos (main)
+$ git submodule add git@github.com:alexanderpba/DescomplicandoDocker.git LinuxTips/DescomplicandoDocker/eBook/DescomplicandoDocker
+Cloning into 'C:/Users/alexander/Workspace/cursos/LinuxTips/DescomplicandoDocker/eBook/DescomplicandoDocker'...
+remote: Enumerating objects: 229, done.
+remote: Counting objects: 100% (229/229), done.
+remote: Compressing objects: 100% (160/160), done.
+remote: Total 229 (delta 112), reused 167 (delta 64), pack-reused 0 eceiving objects:  92% (211/229), 556.00 KiB | 1.07 MiB/s
+Receiving objects: 100% (229/229), 617.23 KiB | 1.16 MiB/s, done.
+Resolving deltas: 100% (112/112), done.
+warning: LF will be replaced by CRLF in .gitmodules.
+The file will have its original line endings in your working directory
+
+# Buscando os arquivos atualizados de um submodule dentro de um projeto GIT
+$ git submodule update --init --recursive
+
+
+# Fazendo um Clone de um projeto com Submodulos 
+$ git clone --recursive git@github.com:alexanderpba/cursos.git
+
+# Atualizando um repositório com Submodulos
+$ git pull --recurse-submodules
