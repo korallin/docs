@@ -1,0 +1,38 @@
+Configurando rclone
+-------------------
+rclone config
+
+    Remote config
+    --------------------
+    [srvbd34-trf1]
+    type = sftp
+    host = srvbd34-trf1
+    key_file = /var/lib/pgsql/.ssh/id_rsa
+    --------------------
+    y) Yes this is OK (default)
+    e) Edit this remote
+    d) Delete this remote
+    y/e/d> y
+    Current remotes:
+
+    Name                 Type
+    ====                 ====
+    srvbd34-trf1         sftp
+
+Efetuando um teste de conexão com o host configurado
+----------------------------------------------------
+    -bash-4.2$ rclone lsd srvbd34-trf1:
+            -1 2020-07-01 16:46:59        -1 .config
+            -1 2021-07-09 16:24:31        -1 .ssh
+            -1 2019-09-16 14:51:27        -1 .vim
+            -1 2019-11-30 11:15:33        -1 11
+            -1 2020-03-23 13:56:26        -1 backups
+            -1 2019-10-02 14:21:37        -1 migracao
+            -1 2020-03-20 13:55:57        -1 nova_homologacao
+            -1 2021-03-18 11:52:13        -1 spool
+            -1 2019-10-02 14:37:50        -1 srvbd34_slave
+            -1 2021-03-26 16:13:13        -1 util
+
+Sincronizando um diretório recursivo com multi-threads
+------------------------------------------------------
+    -bash-4.2$ rclone sync -P -i /var/lib/pgsql/11/data1/base/ srvbd34-trf1:/var/lib/pgsql/11/data1/base/ --multi-thread-streams=100
