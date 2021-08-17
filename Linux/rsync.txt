@@ -7,3 +7,25 @@ Caso queira fazer apenas um teste, basta usar a opção --dry-run
 Copiando arquivos setando permissões e excluíndo arquivos na origem após copiados
 =================================================================================
 rsync --perms --chmod=Du=rwx,Dgo=rx,Fu=rwx,Fog=rx --temp-dir=/tmp --partial-dir=/tmp --log-format='%t %p %i %n %M %l' --checksum --executability --progress --remove-source-files -rDvhe <origem> <destino>
+
+Copiando milhares de arquivos de forma paralela
+===============================================
+ls /srv/mail | xargs -n1 -P4 -I% rsync -Pa % myserver.com:/srv/mail/
+
+rsync -avhi /home/fabio/Documentos fabio@192.168.1.104:/home/fabio/Backup/
+Na saída serão mostrados diversos caracteres em uma coluna à esquerda dos nomes de arquivos e diretórios. O significado desses caracteres é o seguinte:
+
+    < indica que um arquivo está sendo transferido para o host remoto (enviado).
+    > indica que um arquivo está sendo transferido para o host local (recebido).
+    f indica que se trata de um arquivo.
+    d indica que se trata de um diretório
+    c indica que está ocorrendo a criação ou alteração de um item, como a criação de um diretório
+    s ocorreu alteração no tamanho.
+    h indica que se trata de um hard link para outro item
+    . indica que o item não será atualizado
+    L indica um symlink
+    D indica um dispositivo
+    S indica arquivo especial, como um socket nomeado ou um fifo.
+    t existe alteração no timestamp.
+    o proprietário alterado
+    g grupo alterado.
