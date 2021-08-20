@@ -20,39 +20,40 @@ Listando Branch locais ordenadas por data de commit
     3 weeks ago  develop            Alexander Moreira de Morais (TR301005)
 
 Listando Branch remotas ordenadas por data de commit
-    $ git for-each-ref --sort='-committerdate:iso8601' --format='%(committerdate:relative)|%(refname:short)|%(committername)' refs/remotes/ | column -s '|' -t
-    2 days ago            origin/HEAD                                       Francisco Neto
-    2 days ago            origin/master                                     Francisco Neto
-    4 days ago            origin/feature/GroupVarsAutenticidade             Willian Silva
-    3 weeks ago           origin/develop                                    Alexander Moreira de Morais (TR301005)
-    3 weeks ago           origin/hotfix/yamllint-ansiblelint-fixes          Hans Newton Fonseca Cantanhede
-    4 weeks ago           origin/feature/php-hardening                      Hans Newton Fonseca Cantanhede
-    4 weeks ago           origin/feature/harbor                             Tiago dos Santos Carvalho
-    4 weeks ago           origin/check-httpd                                Hans Newton Fonseca Cantanhede
-    9 weeks ago           origin/feature/playbook_postgres                  Tiago Carvalho
-    5 months ago          origin/feature/ELK-log-bdtrf1-SS780689            Hans Newton Fonseca Cantanhede
-    5 months ago          origin/feature/elk-srvpjehml2gcp1                 Hans Newton Fonseca Cantanhede
-    5 months ago          origin/feature/elk-srvpje1gmigra101               Hans Newton Fonseca Cantanhede
-    5 months ago          origin/feature/elk-srvpjemigra01                  Hans Newton Fonseca Cantanhede
-    10 months ago         origin/release/SS659822                           Francisco Neto
-    10 months ago         origin/configuracao_zabbix_proxy_SS654862         rodrigo
-    10 months ago         origin/release/SS653860                           Francisco Neto
-    11 months ago         origin/feature/modcluster                         Francisco Neto
-    12 months ago         origin/release/SS609704                           Francisco Neto
-    12 months ago         origin/configuracao_userpameters_oracle_SS601940  rodrigo
-    12 months ago         origin/release/SS601595                           Francisco Neto
-    1 year, 1 month ago   origin/fix_version_elk                            Augusto Ribeiro
-    1 year, 1 month ago   origin/feature/docker                             Guto Brutus
-    1 year, 2 months ago  origin/feature/template_ci_cd_gitlab              Augusto Ribeiro
-    1 year, 2 months ago  origin/bugfix/SS563538                            Guto Brutus
-    1 year, 2 months ago  origin/SS552850                                   Guto Brutus
-    1 year, 2 months ago  origin/bugfix/pipeline                            Guto Brutus
-    1 year, 3 months ago  origin/feature/ambiente_elk_pje_novo              Guto Brutus
-    1 year, 4 months ago  origin/comando_atop_usuario_oracle                rodrigo
-    1 year, 5 months ago  origin/hotfix/yumrepotrf1                         Augusto Ribeiro
-    1 year, 5 months ago  origin/monitoramento_oracle                       Augusto Ribeiro
-    1 year, 7 months ago  origin/feature/user_parameter_novo                rodrigo
-    1 year, 7 months ago  origin/feature/playbook_filatrf1doc               tr19895ps
+    $ git for-each-ref --sort='-committerdate:iso8601' --format='%(objectname:short)|%(committerdate:short)|%(committerdate:relative)|%(refname:short)|%(committername)' refs/remotes/ | column -s '|' -t
+    b45f437  2021-08-18  2 days ago            origin/HEAD                                       Francisco Neto
+    b45f437  2021-08-18  2 days ago            origin/master                                     Francisco Neto
+    858eca8  2021-08-16  4 days ago            origin/feature/GroupVarsAutenticidade             Willian Silva
+    11b2f4e  2021-07-27  3 weeks ago           origin/develop                                    Alexander Moreira de Morais (TR301005)
+    0fa55e0  2021-07-27  3 weeks ago           origin/hotfix/yamllint-ansiblelint-fixes          Hans Newton Fonseca Cantanhede
+    c0536cf  2021-07-26  4 weeks ago           origin/feature/php-hardening                      Hans Newton Fonseca Cantanhede
+    9757170  2021-07-22  4 weeks ago           origin/feature/harbor                             Tiago dos Santos Carvalho
+    18ab592  2021-07-20  4 weeks ago           origin/check-httpd                                Hans Newton Fonseca Cantanhede
+    07dcbd1  2021-06-21  9 weeks ago           origin/feature/playbook_postgres                  Tiago Carvalho
+    c53c3e2  2021-03-29  5 months ago          origin/feature/ELK-log-bdtrf1-SS780689            Hans Newton Fonseca Cantanhede
+    82aec5f  2021-03-23  5 months ago          origin/feature/elk-srvpjehml2gcp1                 Hans Newton Fonseca Cantanhede
+    8e25d5f  2021-03-23  5 months ago          origin/feature/elk-srvpje1gmigra101               Hans Newton Fonseca Cantanhede
+    e052788  2021-03-23  5 months ago          origin/feature/elk-srvpjemigra01                  Hans Newton Fonseca Cantanhede
+    c6e9bb8  2020-10-29  10 months ago         origin/release/SS659822                           Francisco Neto
+    43467ec  2020-10-22  10 months ago         origin/configuracao_zabbix_proxy_SS654862         rodrigo
+    246acac  2020-10-21  10 months ago         origin/release/SS653860                           Francisco Neto
+    cf8ed96  2020-09-30  11 months ago         origin/feature/modcluster                         Francisco Neto
+    3bde64b  2020-08-26  12 months ago         origin/release/SS609704                           Francisco Neto
+    92630d0  2020-08-25  12 months ago         origin/configuracao_userpameters_oracle_SS601940  rodrigo
+    bb04548  2020-08-24  12 months ago         origin/release/SS601595                           Francisco Neto
+    cd4ee8c  2020-07-23  1 year, 1 month ago   origin/fix_version_elk                            Augusto Ribeiro
+    c5912eb  2020-07-06  1 year, 1 month ago   origin/feature/docker                             Guto Brutus
+    4166646  2020-07-03  1 year, 2 months ago  origin/feature/template_ci_cd_gitlab              Augusto Ribeiro
+    7e2e69a  2020-06-25  1 year, 2 months ago  origin/bugfix/SS563538                            Guto Brutus
+    c11fe11  2020-06-09  1 year, 2 months ago  origin/SS552850                                   Guto Brutus
+    2b17fa2  2020-06-09  1 year, 2 months ago  origin/bugfix/pipeline                            Guto Brutus
+    a464d39  2020-06-03  1 year, 3 months ago  origin/feature/ambiente_elk_pje_novo              Guto Brutus
+    09cbf37  2020-04-13  1 year, 4 months ago  origin/comando_atop_usuario_oracle                rodrigo
+    9fd1c1e  2020-03-26  1 year, 5 months ago  origin/hotfix/yumrepotrf1                         Augusto Ribeiro
+    6abb045  2020-03-16  1 year, 5 months ago  origin/monitoramento_oracle                       Augusto Ribeiro
+    86a4068  2020-01-30  1 year, 7 months ago  origin/feature/user_parameter_novo                rodrigo
+    ce924a8  2020-01-29  1 year, 7 months ago  origin/feature/playbook_filatrf1doc               tr19895ps
+
 
 Listando Branch remotas ordenadas por data de commit
     $ for k in `git branch -a | sed -e s/^..// -e 's/(detached from .*)/HEAD/'`; do echo -e `git log -1 --pretty=format:"%Cgreen%ci |%Creset$k [%Cred%an%Creset] %Cblue%h%Creset -> %s" $k`;done | sort -r | column -s '|' -t
