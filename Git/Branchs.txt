@@ -1,11 +1,103 @@
 Criando uma Branch e apontando para Branch
-    git checkout -b hotfix/join_server_ad
+    $ git checkout -b hotfix/join_server_ad
 
 Mapeando uma Branch Local com uma Branch Remota
-    git pull -u origin hotfix/join_server_ad
+    $ git pull -u origin hotfix/join_server_ad
 
 Excluindo uma Branch Local
-    git branch -d hotfix
+    $ git branch -d hotfix
 
 Excluindo uma Branch Remota
-    git push origin --delete serverfix
+    $ git push origin --delete serverfix
+
+Listando Branch remotas
+    $ git branch -r
+
+Listando Branch locais ordenadas por data de commit
+    $ git for-each-ref --sort='-committerdate:iso8601' --format='%(committerdate:relative)|%(refname:short)|%(committername)' refs/heads | column -s '|' -t
+    2 days ago   feature/alexander  Francisco Neto
+    2 days ago   master             Francisco Neto
+    3 weeks ago  develop            Alexander Moreira de Morais (TR301005)
+
+Listando Branch remotas ordenadas por data de commit
+    $ git for-each-ref --sort='-committerdate:iso8601' --format='%(committerdate:relative)|%(refname:short)|%(committername)' refs/remotes/ | column -s '|' -t
+    2 days ago            origin/HEAD                                       Francisco Neto
+    2 days ago            origin/master                                     Francisco Neto
+    4 days ago            origin/feature/GroupVarsAutenticidade             Willian Silva
+    3 weeks ago           origin/develop                                    Alexander Moreira de Morais (TR301005)
+    3 weeks ago           origin/hotfix/yamllint-ansiblelint-fixes          Hans Newton Fonseca Cantanhede
+    4 weeks ago           origin/feature/php-hardening                      Hans Newton Fonseca Cantanhede
+    4 weeks ago           origin/feature/harbor                             Tiago dos Santos Carvalho
+    4 weeks ago           origin/check-httpd                                Hans Newton Fonseca Cantanhede
+    9 weeks ago           origin/feature/playbook_postgres                  Tiago Carvalho
+    5 months ago          origin/feature/ELK-log-bdtrf1-SS780689            Hans Newton Fonseca Cantanhede
+    5 months ago          origin/feature/elk-srvpjehml2gcp1                 Hans Newton Fonseca Cantanhede
+    5 months ago          origin/feature/elk-srvpje1gmigra101               Hans Newton Fonseca Cantanhede
+    5 months ago          origin/feature/elk-srvpjemigra01                  Hans Newton Fonseca Cantanhede
+    10 months ago         origin/release/SS659822                           Francisco Neto
+    10 months ago         origin/configuracao_zabbix_proxy_SS654862         rodrigo
+    10 months ago         origin/release/SS653860                           Francisco Neto
+    11 months ago         origin/feature/modcluster                         Francisco Neto
+    12 months ago         origin/release/SS609704                           Francisco Neto
+    12 months ago         origin/configuracao_userpameters_oracle_SS601940  rodrigo
+    12 months ago         origin/release/SS601595                           Francisco Neto
+    1 year, 1 month ago   origin/fix_version_elk                            Augusto Ribeiro
+    1 year, 1 month ago   origin/feature/docker                             Guto Brutus
+    1 year, 2 months ago  origin/feature/template_ci_cd_gitlab              Augusto Ribeiro
+    1 year, 2 months ago  origin/bugfix/SS563538                            Guto Brutus
+    1 year, 2 months ago  origin/SS552850                                   Guto Brutus
+    1 year, 2 months ago  origin/bugfix/pipeline                            Guto Brutus
+    1 year, 3 months ago  origin/feature/ambiente_elk_pje_novo              Guto Brutus
+    1 year, 4 months ago  origin/comando_atop_usuario_oracle                rodrigo
+    1 year, 5 months ago  origin/hotfix/yumrepotrf1                         Augusto Ribeiro
+    1 year, 5 months ago  origin/monitoramento_oracle                       Augusto Ribeiro
+    1 year, 7 months ago  origin/feature/user_parameter_novo                rodrigo
+    1 year, 7 months ago  origin/feature/playbook_filatrf1doc               tr19895ps
+
+Listando Branch remotas ordenadas por data de commit
+    $ for k in `git branch -a | sed -e s/^..// -e 's/(detached from .*)/HEAD/'`; do echo -e `git log -1 --pretty=format:"%Cgreen%ci |%Creset$k [%Cred%an%Creset] %Cblue%h%Creset -> %s" $k`;done | sort -r | column -s '|' -t
+    fatal: unrecognized argument: ->
+    2021-08-18 13:33:23 -0300    remotes/origin/master [Francisco Neto] b45f437 -> Incluindo ip do zabbix5 no parametro default do Server e ServerActive
+    2021-08-18 13:33:23 -0300    remotes/origin/HEAD [Francisco Neto] b45f437 -> Incluindo ip do zabbix5 no parametro default do Server e ServerActive
+    2021-08-18 13:33:23 -0300    origin/master [Francisco Neto] b45f437 -> Incluindo ip do zabbix5 no parametro default do Server e ServerActive
+    2021-08-18 13:33:23 -0300    master [Francisco Neto] b45f437 -> Incluindo ip do zabbix5 no parametro default do Server e ServerActive
+    2021-08-18 13:33:23 -0300    feature/alexander [Francisco Neto] b45f437 -> Incluindo ip do zabbix5 no parametro default do Server e ServerActive
+    2021-08-16 17:56:45 -0300    remotes/origin/feature/GroupVarsAutenticidade [Willian Silva] 858eca8 -> Inclusão novo GroupVars para Aplicacao/Autenticidade
+    2021-07-27 18:45:47 -0300    remotes/origin/develop [Alexander Moreira de Morais (TR301005)] 11b2f4e -> Ajuste Playbook instalação Wildfly - Modulos JDBC Oracle e Postgres
+    2021-07-27 18:45:47 -0300    develop [Alexander Moreira de Morais (TR301005)] 11b2f4e -> Ajuste Playbook instalação Wildfly - Modulos JDBC Oracle e Postgres
+    2021-07-27 18:43:30 -0300    remotes/origin/hotfix/yamllint-ansiblelint-fixes [Hans Newton Fonseca Cantanhede] 0fa55e0 -> tag skip_ansible_lint utilizada
+    2021-07-26 18:02:22 -0300    remotes/origin/feature/php-hardening [Hans Newton Fonseca Cantanhede] c0536cf -> backup files
+    2021-07-22 18:37:12 -0300    remotes/origin/feature/harbor [Tiago dos Santos Carvalho] 9757170 -> ajuste na regex de configuracao do nginx
+    2021-07-20 18:13:03 -0300    remotes/origin/check-httpd [Hans Newton Fonseca Cantanhede] 18ab592 -> task backup files
+    2021-06-21 16:22:11 -0300    remotes/origin/feature/playbook_postgres [Tiago Carvalho] 07dcbd1 -> atualização feature/playbook_postgres
+    2021-03-29 19:07:09 -0300    remotes/origin/feature/ELK-log-bdtrf1-SS780689 [Hans Newton Fonseca Cantanhede] c53c3e2 -> publicando logs do servidor srvdspaceadm-trf1 e srvappprd06-trf1 e modificando template de filebeat
+    2021-03-23 18:12:49 -0300    remotes/origin/feature/elk-srvpjehml2gcp1 [Hans Newton Fonseca Cantanhede] 82aec5f -> configurando hostvars srvpjehml2gcp1
+    2021-03-23 17:13:22 -0300    remotes/origin/feature/elk-srvpje1gmigra101 [Hans Newton Fonseca Cantanhede] 8e25d5f -> configurando hostvar srvpje1gmigra101
+    2021-03-23 16:15:22 -0300    remotes/origin/feature/elk-srvpjemigra01 [Hans Newton Fonseca Cantanhede] e052788 -> configurando hostvars para srvpjemigra01
+    2020-10-29 17:03:48 -0300    remotes/origin/release/SS659822 [Francisco Neto] c6e9bb8 -> Criando playbooks para deploy no ambiente de desenvolvimento - PJE
+    2020-10-22 10:51:34 -0300    remotes/origin/configuracao_zabbix_proxy_SS654862 [rodrigo] 43467ec -> Adição do zabbix proxy do GO no arquivo zabbix_agentd.conf. SS654862
+    2020-10-21 12:53:59 -0300    remotes/origin/release/SS653860 [Francisco Neto] 246acac -> Criando playbooks de deploy do ambiente de treinamento - PJE
+    2020-09-30 17:55:35 -0300    remotes/origin/feature/modcluster [Francisco Neto] cf8ed96 -> Atualizando configuracoes de timeout e afinity sessions para o modcluster
+    2020-08-26 19:49:00 -0300    remotes/origin/release/SS609704 [Francisco Neto] 3bde64b -> Atualizando role filebeat para filtro de path e regex
+    2020-08-25 14:41:43 -0300    remotes/origin/configuracao_userpameters_oracle_SS601940 [rodrigo] 92630d0 -> adição de mais um item para ser monitorados nos servidores oracle via userparameters
+    2020-08-24 13:18:09 -0300    remotes/origin/release/SS601595 [Francisco Neto] bb04548 -> Criando playbooks para os bash_profiles da seban(oracle/grid)
+    2020-07-23 23:46:27 -0300    remotes/origin/fix_version_elk [Augusto Ribeiro] cd4ee8c -> Fixando a versão do elasticsearch em 6.8.7.1
+    2020-07-06 15:52:43 -0300    remotes/origin/feature/docker [Guto Brutus] c5912eb -> Adição de playbook/role para instalação de docker e docker-compose em um servidor GNU/Linux com CentOS
+    2020-07-03 12:36:09 -0300    remotes/origin/feature/template_ci_cd_gitlab [Francisco Neto] 4166646 -> Atualizando template sesoflinux para atender exigencias de privilegios de acesso aos hosts de hml do pje para o usuario gitlab no pipeline cicd
+    2020-06-25 12:08:19 -0300    remotes/origin/bugfix/SS563538 [Guto Brutus] 7e2e69a -> Ajustes na playbook para melhoria de desempenho e ajustes para executar o sonarqube com um usuário de serviço, conforme SS563538
+    2020-06-09 11:40:50 -0300    remotes/origin/SS552850 [Guto Brutus] c11fe11 -> Adicionada permissão de acesso direto na porta 8080 para o computador do Anibal, conforme SS552850
+    2020-06-09 11:23:26 -0300    remotes/origin/bugfix/pipeline [Guto Brutus] 2b17fa2 -> Fixing Trailing whitespace e error 305 do lint
+    2020-06-03 16:19:00 -0300    remotes/origin/feature/ambiente_elk_pje_novo [Guto Brutus] a464d39 -> Adequação da playbook, a fim de contemplar a arquitetura sugerida pela empresa especializada em elastic, qual seja: 03 master nodes, 03 ingest-data nodes, 02 data nodes, 01 node de kibana com 01 node coordinator
+    2020-04-13 14:33:50 -0300    remotes/origin/comando_atop_usuario_oracle [rodrigo] 09cbf37 -> Atualização do arquivo sudoers/seban. Demanda de numero SS510429
+    2020-03-26 13:04:22 -0300    remotes/origin/hotfix/yumrepotrf1 [Augusto Ribeiro] 9fd1c1e -> Correção da role repoTRF1 que estava apontando para um path errado
+    2020-03-16 13:17:30 -0300    remotes/origin/monitoramento_oracle [rodrigo] 6abb045 -> Alteração no arquivo de userparemetrs_asmdg.conf. Este arquivo serve para o monitoramento dos servidores de banco oracle
+    2020-01-30 16:44:15 -0200    remotes/origin/feature/user_parameter_novo [rodrigo] 86a4068 -> Adição de novas chave no arquivo userparameters_seban a pedido do Reginaldo pelas solicitações: SS434515 e SS434506
+    2020-01-29 18:16:49 -0300    remotes/origin/feature/playbook_filatrf1doc [tr19895ps] ce924a8 -> Criando playbook trf1doc
+
+
+Criando Alias para Branchs
+    $ git config --global alias.branches "for-each-ref --sort='-authordate:iso8601' --format=' %(authordate:relative)%09%(refname:short)' refs/heads"
+    $ git branches
+        2 days ago     feature/alexander
+        2 days ago     master
+        3 weeks ago    develop
