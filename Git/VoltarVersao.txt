@@ -1,0 +1,31 @@
+Voltando versão anterior do último commit
+=========================================
+    $ git reset --hard HEAD~
+
+Voltando versão para um Commit especifico
+=========================================
+    $ git reflog
+    7276356 HEAD@{0}: commit: Ajustes de DataSources alterando max-pool-size para 45 para não extrapolar o limite de 2000 conexões configurado no Banco de Dados Postgres 1G MASTER -
+    2bcfbd8 HEAD@{1}: commit: Ajuste de min-pool-size DataSource PjeDS 2G de 10 para 2 - SS884912
+    0323650 HEAD@{2}: commit: Ajuste de min-pool-size de 20 para 7 - SS884912
+    1ba6110 HEAD@{3}: commit: Retirada dos nós 31 e 32 do balanceamento PJe 1G - Solicitado via Teams pelo Barbosa e Melre
+    c098208 HEAD@{4}: pull: Fast-forward
+    c62c425 HEAD@{5}: commit: Adição nó srvpje1goutjb31 no balanceamento de carga PJe 1G PRD - RDM1654
+
+    $ git reset --hard 0323650
+    Unstaged changes after reset:
+    M       wildfly-9.0.2.Final/pje_1g-cons/configuration/standalone.xml
+    M       wildfly-9.0.2.Final/pje_1g-migrador/configuration/standalone.xml
+    M       wildfly-9.0.2.Final/pje_1g-mni/configuration/standalone.xml
+    M       wildfly-9.0.2.Final/pje_1g-prv/configuration/standalone.xml
+    M       wildfly-9.0.2.Final/pje_1g-quartz/configuration/standalone.xml
+    M       wildfly-9.0.2.Final/pje_1g-usuariofinal-supervm/configuration/standalone.xml
+
+
+Voltando para versão master remota
+==================================
+    $ git fetch origin
+    $ git reset --hard origin/<master|develop|etc.>
+    $ git clean -d -f
+    $ git pull
+    Already up to date.
