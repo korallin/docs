@@ -1,0 +1,62 @@
+# Mostrando informações de sistema
+==================================
+sysstat
+/etc/default/sysstat setar para "true"
+[root@nuope08-trf1 ~]# sar 1 10
+Linux 3.10.0-1160.31.1.el7.x86_64 (nuope08-trf1.trf1.gov.br)    26-08-2021      _x86_64_        (8 CPU)
+
+13:41:40        CPU     %user     %nice   %system   %iowait    %steal     %idle
+13:41:41        all      0,25      0,00      0,87      0,00      0,00     98,88
+13:41:42        all      0,37      0,00      1,12      0,00      0,00     98,51
+13:41:43        all      0,37      0,00      1,24      0,00      0,00     98,39
+13:41:44        all      0,25      0,00      1,00      0,00      0,00     98,75
+13:41:45        all      0,37      0,00      1,12      0,00      0,00     98,51
+13:41:46        all      0,25      0,00      1,12      0,00      0,00     98,63
+13:41:47        all      0,37      0,00      1,12      0,00      0,00     98,51
+13:41:48        all      0,25      0,00      1,12      0,00      0,00     98,63
+13:41:49        all      0,37      0,00      1,12      0,00      0,00     98,51
+13:41:50        all      0,37      0,00      1,00      0,00      0,00     98,63
+Média:         all      0,32      0,00      1,08      0,00      0,00     98,60
+
+
+
+[root@nuope08-trf1 ~]# vmstat -w -d
+disk- -------------------reads------------------- -------------------writes------------------ ------IO-------
+          total    merged     sectors          ms     total    merged     sectors          ms     cur     sec
+sda       67031       413     3969030       20751    701031     28289    88601660     8628083       0     324
+dm-0      66703         0     3895748       20516    729305         0    89440565     8721458       0     325
+dm-1         88         0        4408          44         0         0           0           0       0       0
+
+
+# Detalhes de monitoramento (CPU, MEM, IO, etc)
+nmon - nmon is short for Nigel's performance Monitor for Linux
+┌nmon─16g──────[H for help]───Hostname=nuope08-trf1─Refresh= 2secs ───13:34.19──┐
+│                                                                               │
+│   ------------------------------                                              │
+│    _ __  _ __ ___   ___  _ __          For help type H or ...                 │
+│   | '_ \| '_ ` _ \ / _ \| '_ \          nmon -?  - hint                       │
+│   | | | | | | | | | (_) | | | |         nmon -h  - full details               │
+│   |_| |_|_| |_| |_|\___/|_| |_|                                               │
+│                                        To stop nmon type q to Quit            │
+│   ------------------------------                                              │
+│                                                                               │
+│   CentOS Linux release 7.9.2009 (Core) VERSION="7 (Core)"                     │
+│   Vendor=GenuineIntel Model=Intel(R) Core(TM) i7-7700T CPU @ 2.90GHz          │
+│   MHz=820.935 bogomips=5808.00           lscpu:CPU=8 Little Endian            │
+│   ProcessorChips=1 PhyscalCores=4              Sockets=1 Cores=4 Thrds=2      │
+│   Hyperthreads  =2 VirtualCPUs =8              MHz=1141 max=3800 min=800      │
+│                                                                               │
+│   Use these keys to toggle statistics on/off:                                 │
+│     c = CPU         l = CPU Long-term     - = Faster screen updates           │
+│     C = " WideView  U = Utilisation       + = Slower screen updates           │
+│     m = Memory      V = Virtual memory    j = File Systems                    │
+│     d = Disks       n = Network           . = only busy disks/procs           │
+│     r = Resource    N = NFS               h = more options                    │
+│     k = Kernel      t = Top-processes     q = Quit                            │
+│───────────────────────────────────────────────────────────────────────────────┘
+
+
+Monitorando apenas alguns processos com o top no linux:
+=======================================================
+[root@srvpjejcr ~]# pids=( $(pgrep enviaEmail) )
+[root@srvpjejcr ~]# top "${pids[@]/#/-p }"

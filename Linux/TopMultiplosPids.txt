@@ -1,4 +1,0 @@
-Monitorando apenas alguns processos com o top no linux:
-
-[root@srvpjejcr ~]# pids=( $(pgrep enviaEmail) )
-[root@srvpjejcr ~]# top "${pids[@]/#/-p }"
