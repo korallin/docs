@@ -1,0 +1,68 @@
+Instalando Httpd e php-fpm
+==========================
+    # yum install httpd php-fpm
+
+Habiliando serviços
+===================
+    # systemctl enable php-fpm.service
+    # systemctl enable httpd.service
+
+Comentar as linhas abaixo no arquivo /etc/httpd/conf.d/php.conf
+===============================================================
+    #
+    # Apache specific PHP configuration options
+    # those can be override in each configured vhost
+    #
+    #php_value session.save_handler "files"
+    #php_value session.save_path    "/var/lib/php/session"
+
+Modificando /etc/httpd/conf.moduloes.d/01-cgi.conf com configurações de Sessoes no modulo prefork
+=================================================================================================
+    <IfModule mpm_prefork_module>
+        php_value session.save_handler "files"
+        php_value session.save_path "/var/lib/php/session"
+    </IfModule>
+    <IfModule mpm_event_module>
+        LoadModule cgid_module modules/mod_cgid.so
+        ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/var/www/html/$1
+    </IfModule>'
+
+Alterar o arquivo conf.modules.d/00-mpm.conf mudando o modulo MPM de prefork (Default) para event
+=================================================================================================
+    # Select the MPM module which should be used by uncommenting exactly
+    # one of the following LoadModule lines:
+
+    # prefork MPM: Implements a non-threaded, pre-forking web server
+    # See: http://httpd.apache.org/docs/2.4/mod/prefork.html
+    #LoadModule mpm_prefork_module modules/mod_mpm_prefork.so
+
+    # worker MPM: Multi-Processing Module implementing a hybrid
+    # multi-threaded multi-process web server
+    # See: http://httpd.apache.org/docs/2.4/mod/worker.html
+    #
+    #LoadModule mpm_worker_module modules/mod_mpm_worker.so
+
+    # event MPM: A variant of the worker MPM with the goal of consuming
+    # threads only for connections with active processing
+    # See: http://httpd.apache.org/docs/2.4/mod/event.html
+    #
+    LoadModule mpm_event_module modules/mod_mpm_event.so
+
+Criando um VirtualHost com ProxyPass para php-fpm
+=================================================
+    <VirtualHost 123.123.123.123:80>
+        DocumentRoot "/var/www/html"
+        ServerName example.com
+        ServerAlias www.example.com
+        ErrorLog /dev/null
+        CustomLog /dev/null combined
+        
+        <IfModule mpm_event_module>
+            ProxyPassMatch ^/(.*\.php(/.*)?)$ fcgi://127.0.0.1:9000/var/www/html/$1
+        </IfModule>
+        
+        <Directory "/var/www/html">
+            Require all granted
+            allow from all
+        </Directory>
+    </VirtualHost>
