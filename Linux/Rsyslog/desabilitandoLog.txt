@@ -1,0 +1,8 @@
+Para desabilitar registro de logs no /var/log/messages de agendamentos /etc/crontab basta criar um arquivo /etc/rsyslog.d/ignore-systemd-session-slice.conf com o seguinte conteúdo
+
+    #Add Filter
+    if ($programname == "systemd-logind" or $programname == "systemd") and 
+    ($msg contains "Started Session" or $msg contains "Created slice" or $msg contains "Starting user-") then stop
+
+Reiniciar o serviço de Rsyslog
+    systemctl restart rsyslog
