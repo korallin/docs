@@ -52,6 +52,9 @@ Trabalhando com Ansible
     
     # Copiando arquivos
     ansible Aplicação/PJe2/Wildfly -m copy -a "src=/tmp/1.jpeg dest=/tmp/" -f 8 -l srvpje[12]gmni*
+
+    # Criando link simbólico
+    ansible Aplicação/PJe2/Wildfly -m file -a 'src=/dados/teste dest=/tmp/teste state=link owner=root group=root' -l srvpje1g*
     
     # Pós instalação Kickstart
     ansible-playbook playbooks/linux-basic/linux-basic.yml -l srvbd16-trf1.trf1.gov.br -u root -k
