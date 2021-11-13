@@ -1,0 +1,9 @@
+~/workspace/docs/Linux/SNMP/monitoramento.sh srvpjehmlspb01.trf1.gov.br > /tmp/spb/srvpjehmlspb01.csv &
+~/workspace/docs/Linux/SNMP/monitoramento.sh srvpjehmlspb02.trf1.gov.br > /tmp/spb/srvpjehmlspb02.csv &
+~/workspace/docs/Linux/SNMP/monitoramento.sh srvpjehmlspb03.trf1.gov.br > /tmp/spb/srvpjehmlspb03.csv &
+~/workspace/docs/Linux/SNMP/monitoramento.sh srvpjehmlspb04.trf1.gov.br > /tmp/spb/srvpjehmlspb04.csv &
+~/workspace/docs/Linux/SNMP/monitoramento.sh srvpjehmlspb05.trf1.gov.br > /tmp/spb/srvpjehmlspb05.csv &
+~/workspace/docs/Linux/SNMP/monitoramento.sh srvpjehmlspb06.trf1.gov.br > /tmp/spb/srvpjehmlspb06.csv &
+~/workspace/docs/Linux/SNMP/monitoramento.sh srvpjehmlminio1.trf1.gov.br > /tmp/spb/srvpjehmlminio1.csv &
+~/workspace/docs/Linux/SNMP/monitoramento.sh srvpjehmlminio2.trf1.gov.br > /tmp/spb/srvpjehmlminio2.csv &
+~/workspace/docs/Linux/SNMP/monitoramento.sh srvpjehmlminio3.trf1.gov.br > /tmp/spb/srvpjehmlminio3.csv &
