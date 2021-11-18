@@ -194,6 +194,9 @@ pjehmlminio/br.jus.pje.5.09/202106/01
 #### Listando arquivos criados no dia
 > ./mc ls --rewind 0d pjehmlminio/teste
 
+#### Listando arquivos com mais de 100MB e menos de 500MB
+> ./mc find pjeminiobkp/pje509/202110/ --larger 100MB --smaller 500MB
+
 #### Mostrando conteúdo de um arquivo
 ```bash
 ./mc cat pjehmlminio/teste/admin.json
