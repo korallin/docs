@@ -1,0 +1,1 @@
+curl -fsSl https://get.docker.com | /bin/bash
