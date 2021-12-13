@@ -1,0 +1,63 @@
+1. Abra o terminal.
+2. Liste os remotes configurados para seu fork.
+    $ git remote -v
+    origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (fetch)
+    origin  https://github.com/YOUR_USERNAME/YOUR_FORK.git (push)
+
+3. Crie um novo remote chamado upstream, apontando para o repositório de origem. Ele será responsável pela atualização do nosso fork.
+    $ git remote add upstream https://github.com/badtuxx/DescomplicandoDocker.git
+
+4. E por fim verifique suas alterações.
+    $ git remote -v
+    origin  git@github.com:alexanderpba/DescomplicandoDocker.git (fetch)
+    origin  git@github.com:alexanderpba/DescomplicandoDocker.git (push)
+    upstream        https://github.com/badtuxx/DescomplicandoDocker.git (fetch)
+    upstream        https://github.com/badtuxx/DescomplicandoDocker.git (push)
+
+    * origin: endereço de seu repositório (fork).
+    * upstream: endereço do repositório de origem.
+
+5. Realizar Sincronização do Fork.
+
+6. Baixe as atualizações do repositório de origem configurado em upstream.
+    $ git fetch upstream
+    remote: Enumerating objects: 415, done.
+    remote: Counting objects: 100% (294/294), done.
+    remote: Compressing objects: 100% (65/65), done.
+    remote: Total 415 (delta 269), reused 242 (delta 229), pack-reused 121 eceiving objects:  98% (407/415), 1.11 MiB | 2.20 Mi
+    Receiving objects: 100% (415/415), 1.34 MiB | 2.28 MiB/s, done.
+    Resolving deltas: 100% (297/297), completed with 6 local objects.
+    From https://github.com/badtuxx/DescomplicandoDocker
+    * [new branch]      gh-pages   -> upstream/gh-pages
+    * [new branch]      main       -> upstream/main
+    * [new branch]      newBook    -> upstream/newBook
+    * [new branch]      revert-14-feature/pathnames -> upstream/revert-14-feature/pathnames
+
+todos os commits feito para o master(main), serão armazenados em um branch local emupstream/master(main)
+
+7. Faça o checkout para o branch master.
+    $ git checkout main
+    Previous HEAD position was 464bdd6 Update README.md
+    Switched to branch 'main'
+    Your branch is up to date with 'origin/main'.
+
+8. Faça o merge das alterações feitas em upstream/master para o branch master local.
+    $ git merge upstream/masterUpdating a422352..5fdff0f
+    Fast-forward
+    README                    |    9 -------
+    README.md                 |    7 ++++++
+    2 files changed, 7 insertions(+), 9 deletions(-)
+    delete mode 100644 README
+    create mode 100644 README.md
+
+Também pode fazer o rebase
+    $ git rebase upstream/main
+    Successfully rebased and updated refs/heads/main.
+
+9. Enviando as alterações para o repositório
+    $ git push
+    Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
+    To github.com:alexanderpba/DescomplicandoDocker.git
+    6c998dc..464bdd6  main -> main
+
+após esses comandos seu fork estará com as últimas atualizações feitas no repositório de origem.
