@@ -1,0 +1,108 @@
+O Netcat (ou nc em resumo) é uma ferramenta de linha de comando de rede simples, porém poderosa, usada para executar qualquer operação no Linux relacionada a soquetes de domínio TCP, UDP ou UNIX.
+
+O Netcat pode ser usado para varredura de portas, redirecionamento de portas, como ouvinte de portas (para conexões de entrada); também pode ser usado para abrir conexões remotas e muitas outras coisas. Além disso, você pode usá-lo como backdoor para obter acesso a um servidor de destino.
+
+
+Port Scanning
+=============
+O Netcat pode ser usado para varredura de portas: para saber quais portas estão abertas e executando serviços em uma máquina de destino. Ele pode digitalizar uma única ou múltipla ou várias portas abertas.
+
+Aqui está um exemplo, a opção -z  define nc para simplesmente procurar daemons ouvintes, sem realmente enviar dados para eles. A opção-v ativa o modo detalhado e -w especifica um tempo limite para a conexão que não pode ser estabelecida.
+
+$ nc -v -w 2 z 192.168.56.1 22     #scan a single port
+OU
+$ nc -v -w 2 z 192.168.56.1 22 80  #scan multiple ports
+OU
+$ nc -v -w 2 z 192.168.56.1 20-25  #scan range of ports
+
+
+Transferir arquivos entre servidores Linux
+==========================================
+O Netcat permite transferir arquivos entre dois computadores ou servidores Linux e esses dois sistemas devem ter nc instalado.
+
+Por exemplo, para copiar um arquivo de imagem ISO de um computador para outro e monitorar o progresso da transferência (usando o utilitário pv), execute o seguinte comando no computador emissor / servidor (onde o arquivo ISO existe).
+
+Isso executará nc no modo de escuta (-l flag ) na porta 3000.
+
+$ tar -zcf - debian-10.0.0-amd64-xfce-CD-1.iso  | pv | nc -l -p 3000 -q 5
+
+E no computador receptor / cliente, execute o seguinte comando para obter o arquivo.
+
+$ nc 192.168.1.4 3000 | pv | tar -zxf -
+
+Criar um servidor de bate-papo da linha de comando
+==================================================
+Você também pode usar o Netcat para criar instantaneamente um servidor de mensagens da linha de comando simples. Como no exemplo de uso anterior, o nc deve ser instalado nos dois sistemas usados para a sala de bate-papo.
+
+Em um sistema, execute o seguinte comando para criar o servidor de bate-papo que atende na porta 5000.
+
+$ nc -l -vv -p 5000
+
+No outro sistema, execute o comando a seguir para iniciar uma sessão de bate-papo em uma máquina em que o servidor de mensagens esteja em execução.
+
+$ nc 192.168.56.1 5000
+
+Crie um servidor Web básico
+===========================
+Com o -l opção do comando nc usada para criar um servidor da Web básico e inseguro para servir arquivos da Web estáticos para fins de aprendizado. Para demonstrar isso, crie um .html arquivo como mostrado.
+
+$ vim index.html
+
+Adicione as seguintes linhas HTML no arquivo.
+
+<html>
+        <head>
+                <title>Test Page</title>
+        </head>
+        <body>
+                      <p>Serving this file using Netcat Basic HTTP server!</p>
+        </body>
+</html>
+
+Salve as alterações no arquivo e saia.
+
+Em seguida, sirva o arquivo acima por HTTP executando o seguinte comando, que permitirá que o servidor HTTP seja executado continuamente.
+
+$ while : ; do ( echo -ne "HTTP/1.1 200 OK\r\n" ; cat index.html; ) | nc -l -p 8080 ; done
+
+Em seguida, abra um navegador da web e acesse o conteúdo usando o seguinte endereço.
+
+http://localhost:8080
+ou
+http://SERVER_IP:8080
+
+
+Solucionar problemas de conexão do servidor Linux
+=================================================
+Outro uso útil do Netcat é solucionar problemas de conexão do servidor. Aqui, você pode usar o Netcat para verificar quais dados um servidor está enviando em resposta aos comandos emitidos pelo cliente.
+
+O comando a seguir recupera a página inicial de example.com.
+
+$ printf "GET / HTTP/1.0\r\n\r\n" | nc text.example.com 80
+
+A saída do comando acima inclui os cabeçalhos enviados pelo servidor da web que podem ser usados para fins de solução de problemas.
+
+Find a Service Running on Port
+==============================
+Você também pode usar o Netcat para obter banners de porta. Nesse caso, ele informará qual serviço está sendo executado atrás de uma determinada porta. Por exemplo, para saber que tipo de serviço está sendo executado atrás da porta 22 em um servidor específico, execute o seguinte comando (substitua 192.168.56.110 pelo endereço IP do servidor de destino). O -n flag significa desativar as pesquisas de DNS ou de serviço.
+
+$ nc -v -n 192.168.56.110 80
+
+Criar soquetes de fluxo
+=======================
+O Netcat também suporta a criação de soquetes de fluxo do domínio UNIX. O comando a seguir criará e escutará em um soquete de fluxo do domínio UNIX.
+
+$ nc -lU /var/tmp/mysocket &
+$ ss -lpn | grep "/var/tmp/"
+
+Criar um Backdoor
+=================
+Você também pode executar o Netcat como um backdoor. No entanto, isso exige mais trabalho. Se o Netcat estiver instalado em um servidor de destino, você poderá usá-lo para criar um backdoor, para obter um prompt de comando remoto.
+
+Para atuar como backdoor, você precisa do Netcat para ouvir em uma porta escolhida (por exemplo, porta 3001) no servidor de destino e, em seguida, você pode conectar-se a essa porta a partir da sua máquina da seguinte maneira.
+
+Este é o comando que deve ser executado no servidor remoto em que o -d opção desativa a leitura de stdin e -e especifica o comando para executar no sistema de destino.
+
+$ nc -L -p 3001 -d -e cmd.exe 
+
+Por último, mas não menos importante, o Netcat pode ser usado como proxy para diferentes serviços / protocolos, incluindo HTTP, SSH e muitos mais. Para mais informações, consulte sua página de manual.
