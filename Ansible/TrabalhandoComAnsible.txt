@@ -9,7 +9,7 @@ Trabalhando com Ansible
       <hostname1>
     
       [grupo2]
-      <hostname2>
+      <hostname2> ansible_host=<IP>
     
       [grupo3]
       grupo1
