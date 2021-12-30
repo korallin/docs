@@ -1,0 +1,21 @@
+[Unit]
+Description=WildFly application server
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=jboss
+Group=jboss
+ExecStart=/opt/wildfly/bin/standalone.sh
+ExecStop=/pje_bin/scripts/stopPJe.sh
+Restart=always
+RestartSec=20
+LimitFSIZE=infinity
+LimitCPU=infinity
+LimitAS=infinity
+LimitNOFILE=1000000
+LimitNPROC=65536
+
+[Install]
+WantedBy=multi-user.target
